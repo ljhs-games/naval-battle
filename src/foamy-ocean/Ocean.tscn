@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://foamy-ocean/multiplayerbattle_shadermaterial.tres" type="Material" id=1]
+
+[sub_resource type="PlaneMesh" id=2]
+material = ExtResource( 1 )
+size = Vector2( 2000, 1000 )
+subdivide_width = 700
+subdivide_depth = 300
+
+[node name="Ocean" type="MeshInstance"]
+transform = Transform( 1, 0, 0, 0, 0.88, 0, 0, 0, 1, 4.92238, 0.567398, -2.67294 )
+mesh = SubResource( 2 )
+material/0 = null
+

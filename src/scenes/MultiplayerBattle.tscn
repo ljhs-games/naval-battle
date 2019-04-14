@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://foamy-ocean/Ocean.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/placeholder-ship/placeholder-ship.dae" type="PackedScene" id=2]
+
+[node name="MultiplayerBattle" type="Spatial"]
+
+[node name="Ocean" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.81351, 0.581551, 0, -0.581551, 0.81351, 0, 137.064, 218.698 )
+current = true
+far = 1319.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.848771, -0.425197, -0.314318, -0.408135, -0.904759, 0.121811, -0.336176, 0.0248941, -0.94147, 0, 29.5217, 0 )
+shadow_enabled = true
+shadow_contact = 1.0
+
+[node name="ShipOne" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, -5.49107, 5.46413, 101.416 )
+

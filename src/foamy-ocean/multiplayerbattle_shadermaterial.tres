@@ -114,7 +114,7 @@ void fragment() {
 	if(depth < foam_level) {
 		EMISSION = vec3(1.0 - mask) * pow((foam_level - depth)/foam_level, 2.0);
 	}
-	ALPHA = color.a;
+//	ALPHA = color.a;
 	METALLIC = metallic;
 	ROUGHNESS = roughness;
 	NORMALMAP = texture(texture_normal,(UV + TIME/normal_flow_divisor)*normal_zoom).rgb;
@@ -138,14 +138,14 @@ shader_param/wave_4 = Plane( 0.8, 1.44, 0.1, 80 )
 shader_param/wave_5 = Plane( -0.58, 1.26, 0.031, 128 )
 shader_param/wave_6 = Plane( 0.08, -0.36, 0.17, 25 )
 shader_param/noise_zoom = 0.59
-shader_param/noise_amp = 5.51
-shader_param/color = Color( 0.345098, 0.505882, 0.584314, 0.733333 )
+shader_param/noise_amp = 5.46
+shader_param/color = Color( 0.317647, 0.439216, 0.501961, 1 )
 shader_param/color_mid_height = 7.26
 shader_param/foam_level = 23.89
 shader_param/foam_scale = 100.0
 shader_param/foam_height = 4.97
-shader_param/metallic = 0.73
-shader_param/roughness = 0.36
+shader_param/metallic = 0.43
+shader_param/roughness = 0.1
 shader_param/normal_scale = 0.41
 shader_param/normal_zoom = 21.5
 shader_param/normal_flow_divisor = 420.79

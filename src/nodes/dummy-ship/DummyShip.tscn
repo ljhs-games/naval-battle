@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/placeholder-ship/placeholder-ship.dae" type="PackedScene" id=1]
+
+[node name="DummyShip" instance=ExtResource( 1 )]
+

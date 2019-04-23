@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 50000, 50000 )
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+albedo_color = Color( 0.290196, 0.501961, 0.623529, 1 )
+distance_fade_mode = 1
+distance_fade_min_distance = 757.0
+distance_fade_max_distance = 0.0
+
+[node name="Ocean" type="MeshInstance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0812814, 0 )
+layers = 3
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+

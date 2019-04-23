@@ -3,9 +3,11 @@
 [ext_resource path="res://nodes/viewer/Viewer.gd" type="Script" id=1]
 
 [node name="Viewer" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0 )
 script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.728562, 0.68498, 0, -0.68498, 0.728562, 0, 222.398, 396.167 )
+transform = Transform( 1, 0, 0, 0, 0.99962, 0.0275727, 0, -0.0275727, 0.99962, 0, 0, 400 )
+current = true
 far = 1242.0
 

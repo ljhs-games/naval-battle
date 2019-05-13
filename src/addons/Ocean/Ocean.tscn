@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/Ocean/ocean.shader" type="Shader" id=1]
+[ext_resource path="res://addons/Ocean/noise_tileable.png" type="Texture" id=2]
+[ext_resource path="res://addons/Ocean/Ocean.gd" type="Script" id=3]
+[ext_resource path="res://addons/Ocean/CubeCamera.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Image" id=11]
+data = {
+"data": PoolByteArray( 246, 40, 220, 61, 237, 158, 188, 61, 20, 166, 192, 190, 165, 126, 174, 63, 193, 40, 149, 61, 81, 107, 26, 61, 246, 40, 28, 62, 208, 162, 42, 63, 249, 166, 159, 63, 39, 225, 217, 61, 20, 29, 73, 62, 0, 0, 0, 0, 188, 31, 248, 62, 44, 15, 170, 63, 117, 204, 59, 62, 125, 29, 120, 62, 42, 169, 19, 62, 253, 255, 127, 191, 1, 0, 128, 191, 105, 2, 35, 62, 4, 231, 76, 62, 0, 0, 0, 0, 255, 241, 77, 191, 191, 224, 148, 63, 49, 213, 203, 61, 192, 91, 160, 62, 0, 0, 0, 0, 161, 109, 186, 190, 160, 234, 174, 63, 246, 109, 227, 61, 0, 0, 192, 63, 0, 0, 0, 0, 144, 166, 57, 63, 75, 104, 155, 63, 253, 173, 0, 61, 84, 193, 104, 63, 20, 63, 198, 61, 53, 182, 230, 190, 164, 149, 171, 63, 136, 12, 38, 61, 49, 153, 62, 64, 29, 167, 232, 60, 34, 3, 32, 191, 22, 97, 162, 63, 253, 173, 128, 60, 115, 104, 65, 63, 170, 207, 85, 62, 253, 255, 127, 63, 1, 0, 128, 191, 253, 173, 128, 61, 160, 248, 113, 62, 0, 0, 0, 0, 146, 60, 176, 191, 245, 87, 165, 62, 10, 85, 235, 61 ),
+"format": "RFloat",
+"height": 11,
+"mipmaps": false,
+"width": 5
+}
+
+[sub_resource type="ImageTexture" id=12]
+flags = 0
+flags = 0
+image = SubResource( 11 )
+size = Vector2( 5, 11 )
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = ExtResource( 1 )
+shader_param/resolution = 250.0
+shader_param/n_max = 22.88
+shader_param/alpha = 0.9
+shader_param/PI = 3.14159
+shader_param/noise_params = Plane( -1.054, 0.065, 0.3, 1 )
+shader_param/water_color = Color( 0.129412, 0.239216, 0.321569, 1 )
+shader_param/project_bias = 1.601
+shader_param/time_offset = 1722.22
+shader_param/waves = SubResource( 12 )
+shader_param/noise = ExtResource( 2 )
+
+[node name="Ocean" type="ImmediateGeometry"]
+material_override = SubResource( 10 )
+script = ExtResource( 3 )
+waves = [ Vector3( 10.75, 9.21, 86.27 ), Vector3( 3.77, 15.25, 59.06 ), Vector3( 19.64, 0, 34.26 ), Vector3( 24.23, 14.42, 39.47 ), Vector3( 20.01, 0, 63.13 ), Vector3( 31.32, 0, 56.58 ), Vector3( 150, 0, 200 ), Vector3( 90.92, 9.68, 154.99 ), Vector3( 297.81, 2.84, 400 ), Vector3( 75.55, 20.88, 100 ), Vector3( 23.63, 0, 54.68 ) ]
+wave_directions = PoolRealArray( 60.43, 16.88, 24.96, 180, 79.67, 59.92, 14.15, 63.58, 71.23, 270, 121.8 )
+speed = 4.54
+n_max = 22.88
+noise_amplitude = -1.054
+noise_speed = 0.3
+seed_value = 14
+cube_cam_path = NodePath("EnvironmentCameras")
+
+[node name="EnvironmentCameras" parent="." instance=ExtResource( 4 )]

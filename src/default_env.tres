@@ -10,4 +10,3 @@ fog_depth_end = 943.0
 fog_depth_curve = 1.86607
 fog_transmit_enabled = true
 fog_transmit_curve = 0.267944
-

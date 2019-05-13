@@ -34,8 +34,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9371, 0 )
 ocean_path = NodePath("../Ocean")
 
 [node name="Ocean" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -128.101, 25.4548, -163.01 )
-waves = [ Vector3( 20, 9.21, 86.27 ), Vector3( 20, 15.25, 59.06 ), Vector3( 26.44, 0, 34.26 ), Vector3( 67.91, 14.42, 39.47 ), Vector3( 54.06, 0, 63.13 ), Vector3( 76.11, 0, 56.58 ), Vector3( 160.22, 0, 200 ), Vector3( 141.61, 9.68, 154.99 ), Vector3( 332.16, 2.84, 400 ), Vector3( 120.71, 20.88, 100 ), Vector3( 23.63, 0, 54.68 ) ]
-speed = 10.0
+waves = [ Vector3( 100, 4.28, 86.27 ), Vector3( 237.26, 6.39, 145.81 ), Vector3( 26.44, 0, 34.26 ), Vector3( 79.64, 14.42, 39.47 ), Vector3( 54.06, 0, 63.13 ), Vector3( 76.11, 0, 56.58 ), Vector3( 160.22, 0, 200 ), Vector3( 141.61, 9.68, 154.99 ), Vector3( 332.16, 2.84, 400 ), Vector3( 110.52, 18.27, 100 ), Vector3( 23.63, 0, 54.68 ), Vector3( 69.82, 1.82, 47.39 ), Vector3( 57.73, 10.63, 96.74 ) ]
+wave_directions = PoolRealArray( 60.43, -48.41, 24.96, 180, 79.67, 59.92, 14.15, 63.58, 71.23, 270, 121.8, 330, 113.01 )
+speed = 5.0
+n_max = 18.78
 
 [editable path="Viewer"]

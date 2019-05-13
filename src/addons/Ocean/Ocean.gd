@@ -18,7 +18,7 @@ export(float) var noise_speed = 0.48 setget set_noise_speed
 
 export(int) var seed_value = 0 setget set_seed
 
-var res = 250.0
+var res = 300.0
 var initialized = false
 
 var counter = 0.5
@@ -72,6 +72,8 @@ func _ready():
 #	waves_in_tex = ImageTexture.new()
 	update_waves()
 
+func get_time() -> float:
+	return OS.get_ticks_msec()/1000.0 * speed
 
 func _process(delta):
 	counter -= delta
@@ -81,7 +83,7 @@ func _process(delta):
 			material_override.set_shader_param('environment', cube_map)
 		counter = INF
 	
-	material_override.set_shader_param('time_offset', OS.get_ticks_msec()/1000.0 * speed)
+	material_override.set_shader_param('time_offset', get_time())
 	initialized = true
 
 
@@ -118,34 +120,28 @@ func set_noise_speed(value):
 	old_noise_params.z = value
 	material_override.set_shader_param('noise_params', old_noise_params)
 
-func get_displace(position):
+func get_displace(pos: Vector2) -> Vector3:
 	
-	var new_p;
-	if typeof(position) == TYPE_VECTOR3:
-		new_p = Vector3(position.x, 0.0, position.z)
-	elif typeof(position) == TYPE_VECTOR2:
-		new_p = Vector3(position.x, 0.0, position.y)
-	else:
-		printerr('Position is not a vector3!')
-		breakpoint
-	
-	var freq; var amp; var steep; var phase; var dir
-	for i in waves.size():
-		var w = waves[i]
-		amp = w[0]/100.0
-		if amp == 0.0: continue
+	var new_p = Vector3(pos.x, 0.0, pos.y)
+	var w: float
+	var amp: float
+	var steep: float
+	var phase: float
+	var dir: Vector2
+	for i in range(0, waves.size()):
+		amp = waves[i][0]/100.0
+		if amp == 0.0: continue;
 		
 		dir = Vector2(1.0, 1.0).rotated(deg2rad(wave_directions[i]))
-		freq = TAU/w[2]
-		steep = w[1]/100.0
-		phase = 2.0 * freq
+		w = (TAU)/waves[i][2]
+		steep = waves[i][1]/100.0
+		phase = 2.0 * w
 		
-		var W = position.dot(freq*dir) + phase * OS.get_ticks_msec()/1000.0 * speed
-		
-		new_p.x += steep*amp * dir.x * cos(W)
-		new_p.z += steep*amp * dir.y * cos(W)
+		var W = (w*dir).dot(pos) + phase*get_time()
+#		new_p.x += steep*amp * dir.x * cos(W)
+#		new_p.z += steep*amp * dir.y * cos(W)
 		new_p.y += amp * sin(W)
-	return new_p;
+	return new_p
 
 func update_waves():
 	#Generate Waves..

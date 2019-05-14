@@ -40,17 +40,11 @@ func set_n_min(new_n_min):
 
 func set_waves(new_waves):
 	waves = new_waves
-	if waves.size() != wave_directions.size():
-		printerr("new waves size ", waves.size(), " not equal to wave directions size ", wave_directions.size())
-	else:
-		update_waves()
+	update_waves()
 
 func set_wave_directions(new_wave_directions):
 	wave_directions = new_wave_directions
-	if waves.size() != wave_directions.size():
-		printerr("new wave directions size not equal to waves size")
-	else:
-		update_waves()
+	update_waves()
 
 func _ready():
 	
@@ -130,6 +124,7 @@ func get_displace(pos: Vector3) -> Vector3:
 	var new_p = Vector3(pos.x, 0.0, pos.z)
 	var w: float
 	var amp: float
+# warning-ignore:unused_variable
 	var steep: float
 	var phase: float
 	var dir: Vector2
@@ -149,6 +144,9 @@ func get_displace(pos: Vector3) -> Vector3:
 	return new_p
 
 func update_waves():
+	if waves.size() != wave_directions.size():
+#		printerr("Waves size ", waves.size(), " not equal to Wave Directions size ", wave_directions.size())
+		return
 	#Generate Waves..
 	seed(seed_value)
 #	var amp_length_ratio = amplitude / wavelength

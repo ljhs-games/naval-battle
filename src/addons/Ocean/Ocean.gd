@@ -19,7 +19,7 @@ export(float) var noise_speed = 0.48 setget set_noise_speed
 
 export(int) var seed_value = 0 setget set_seed
 
-var res = 250.0
+var res = 300.0
 var initialized = false
 
 var counter = 0.5
@@ -125,9 +125,9 @@ func set_noise_speed(value):
 	old_noise_params.z = value
 	material_override.set_shader_param('noise_params', old_noise_params)
 
-func get_displace(pos: Vector2) -> Vector3:
+func get_displace(pos: Vector3) -> Vector3:
 	
-	var new_p = Vector3(pos.x, 0.0, pos.y)
+	var new_p = Vector3(pos.x, 0.0, pos.z)
 	var w: float
 	var amp: float
 	var steep: float
@@ -142,7 +142,7 @@ func get_displace(pos: Vector2) -> Vector3:
 		steep = waves[i][1]/100.0
 		phase = 2.0 * w
 		
-		var W = (w*dir).dot(pos) + phase*get_time()
+		var W = (w*dir).dot(Vector2(pos.x, pos.z)) + phase*get_time()
 #		new_p.x += steep*amp * dir.x * cos(W)
 #		new_p.z += steep*amp * dir.y * cos(W)
 		new_p.y += amp * sin(W)

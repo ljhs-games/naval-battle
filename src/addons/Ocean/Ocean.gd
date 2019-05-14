@@ -9,7 +9,8 @@ export (PoolRealArray) var wave_directions  = PoolRealArray([0.0]) setget set_wa
 #const NUMBER_OF_WAVES = 10;
 
 export(float) var speed = 10.0 setget set_speed
-export (float) var n_max = 15.0 setget set_n_max
+export (float) var n_max = 2.5 setget set_n_max
+export (float) var n_min = 1.0 setget set_n_min
 
 export(bool) var noise_enabled = true setget set_noise_enabled
 export(float) var noise_amplitude = 0.28 setget set_noise_amplitude
@@ -18,7 +19,7 @@ export(float) var noise_speed = 0.48 setget set_noise_speed
 
 export(int) var seed_value = 0 setget set_seed
 
-var res = 300.0
+var res = 250.0
 var initialized = false
 
 var counter = 0.5
@@ -33,10 +34,14 @@ func set_n_max(new_n_max):
 	n_max = new_n_max
 	material_override.set_shader_param('n_max', new_n_max)
 
+func set_n_min(new_n_min):
+	n_min = new_n_min
+	material_override.set_shader_param('n_min', new_n_min)
+
 func set_waves(new_waves):
 	waves = new_waves
 	if waves.size() != wave_directions.size():
-		printerr("new waves size not equal to wave directions size")
+		printerr("new waves size ", waves.size(), " not equal to wave directions size ", wave_directions.size())
 	else:
 		update_waves()
 

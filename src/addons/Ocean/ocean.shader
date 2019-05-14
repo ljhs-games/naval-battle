@@ -3,13 +3,16 @@ render_mode skip_vertex_transform, cull_front, unshaded;
 
 uniform sampler2D waves;
 
+uniform float fade_normal_distance = 900.0;
 uniform float resolution = 200.0;
-uniform float n_max = 200.0;
+uniform float n_max = 1.5;
+uniform float n_min = 1.0;
 uniform float alpha = 0.9;
 uniform float PI = 3.14159;
 
 uniform sampler2D noise;
 uniform vec4 noise_params;
+
 /*This uniform contains data that changes noise.
 X- The amplitude of the noise.
 Y- The frequency of the noise.
@@ -85,12 +88,21 @@ vec3 wave_interpolated(vec2 pos, float time, float grid_distance) {
 		
 		float W = dot(w*dir, pos) + phase*time;
 		
-		float dim_factor = clamp( (((((2.0*PI)/w)/grid_distance) - 1.0) / (n_max - 1.0)), 0.0, 1.0);
+		float dim_factor;
+		{
+			float x = (((2.0*PI)/w)/grid_distance);
+			float a = n_min;
+			float b = n_max;
+			float x_bar = clamp( (x-a)/(b-a), 0.0, 1.0);
+			dim_factor = 3.0*pow(x_bar, 2.0) - 2.0*pow(x_bar, 3.0);
+		}
+		
+		
 		new_p.xz += (steep*amp * dir * cos(W))*dim_factor;
 		new_p.y += (amp * sin(W))*dim_factor;
 	}
-	if(noise_params.w > 0.0)
-		new_p.y += noise3D(vec3(pos.xy*noise_params.y, time*noise_params.z))*noise_params.x;
+//	if(noise_params.w > 0.0)
+//		new_p.y += noise3D(vec3(pos.xy*noise_params.y, time*noise_params.z))*noise_params.x;
 	return new_p;
 }
 
@@ -165,7 +177,7 @@ float fresnel(float n1, float n2, float cos_theta) {
 
 void fragment() {
 	NORMAL = wave_normal(vert_coord, time_offset, vert_dist/80.0);
-	NORMAL = mix(NORMAL, vec3(0, -1, 0), min(vert_dist/1500.0, 1));
+	NORMAL = mix(NORMAL, vec3(0, -1.0, 0), min(vert_dist/fade_normal_distance, 1));
 	
 	float eye_dot_norm = dot(eyeVector, NORMAL);
 	float n1 = 1.0, n2 = 1.3333;

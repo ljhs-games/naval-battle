@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://nodes/viewer/Viewer.tscn" type="PackedScene" id=1]
-[ext_resource path="res://nodes/dummy-ship/DummyShip.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/Ocean/Ocean.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Ocean/Ocean.tscn" type="PackedScene" id=2]
+[ext_resource path="res://nodes/ocean-bobber/OceanBobber.tscn" type="PackedScene" id=3]
+[ext_resource path="res://nodes/dummy-ship/DummyShip.tscn" type="PackedScene" id=4]
 
 [sub_resource type="ProceduralSky" id=1]
 sky_horizon_color = Color( 0.764706, 0.819608, 0.854902, 1 )
@@ -29,14 +30,21 @@ transform = Transform( 1, 0, 0, 0, -0.0685201, -0.99765, 0, 0.99765, -0.0685201,
 shadow_bias = 15.5
 directional_shadow_max_distance = 196.0
 
-[node name="DummyShip" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9371, 0 )
+[node name="Ocean" parent="." instance=ExtResource( 2 )]
+waves = [ Vector3( 77.16, 0, 266.5 ), Vector3( 99.39, 0, 113.29 ), Vector3( 63.4, 0, 68.25 ), Vector3( 50, 0, 131.33 ), Vector3( 87.34, 0, 149.92 ), Vector3( 292.38, 0.6, 281.44 ), Vector3( 76.69, 15.55, 123.77 ), Vector3( 130.44, 18.71, 84.33 ), Vector3( 65.78, 10.19, 71.56 ), Vector3( 300, 10.18, 200 ), Vector3( 197.25, 5.04, 230 ) ]
+wave_directions = PoolRealArray( 248.89, -47.68, 183.34, 83.14, 174.08, 58.41, 275.78, 70.02, 205.8, 112.47, 189.19 )
+speed = 6.67
+n_max = 13.63
+n_min = 8.02
+noise_amplitude = 2.136
+noise_frequency = 0.035
+noise_speed = 0.19
+
+[node name="OceanBobber" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66058, 0 )
 ocean_path = NodePath("../Ocean")
 
-[node name="Ocean" parent="." instance=ExtResource( 3 )]
-waves = [ Vector3( 100, 4.28, 86.27 ), Vector3( 237.26, 6.39, 145.81 ), Vector3( 26.44, 0, 34.26 ), Vector3( 79.64, 14.42, 39.47 ), Vector3( 54.06, 0, 63.13 ), Vector3( 76.11, 0, 56.58 ), Vector3( 160.22, 0, 200 ), Vector3( 141.61, 9.68, 154.99 ), Vector3( 332.16, 2.84, 400 ), Vector3( 110.52, 18.27, 100 ), Vector3( 23.63, 0, 54.68 ), Vector3( 69.82, 1.82, 47.39 ), Vector3( 57.73, 10.63, 96.74 ) ]
-wave_directions = PoolRealArray( 60.43, -48.41, 24.96, 180, 79.67, 59.92, 14.15, 63.58, 71.23, 270, 121.8, 330, 113.01 )
-speed = 5.0
-n_max = 18.78
+[node name="DummyShip" parent="OceanBobber" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5764, 0 )
 
 [editable path="Viewer"]

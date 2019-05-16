@@ -42,6 +42,10 @@ func set_wave_directions(new_wave_directions):
 	update_waves()
 
 func _ready():
+	if OS.get_cmdline_args().size() >= 1:
+		var new_res = OS.get_cmdline_args()[0].lstrip("-").to_float()
+		print(new_res)
+		res = new_res
 	
 	for j in range(res):
 		var y = j/res - 0.5

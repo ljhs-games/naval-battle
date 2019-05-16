@@ -16,7 +16,7 @@ func _physics_process(delta):
 	# smoothly interpolate translation
 	translation = (target_translation - translation) * smoothing * delta + translation
 	var new_camera_pos = get_camera_pos()
-	print(new_camera_pos)
+#	print(new_camera_pos)
 	if new_camera_pos.y <= min_camera_height:
 		target_translation.y += min_camera_height - new_camera_pos.y
 

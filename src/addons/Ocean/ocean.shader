@@ -19,8 +19,9 @@ Y- The frequency of the noise.
 Z- The propagation speed of the noise.
 W- Whether to use noise. Values greater than 0 means yes.
 */
-
-uniform samplerCube environment;
+uniform vec4 sky_color: hint_color;
+uniform vec4 horizon_color: hint_color;
+uniform float horizon_falloff_dist = 50.0;
 uniform vec4 water_color: hint_color;
 
 uniform float project_bias = 1.2;
@@ -184,14 +185,10 @@ void fragment() {
 	
 	float reflectiveness = fresnel(n1, n2, abs(eye_dot_norm));
 	
-	vec3 reflect_global = texture(environment, reflect(eyeVector, NORMAL)).rgb;
-	vec3 refract_global;
-	if(eye_dot_norm < 0.0)
-		refract_global = texture(environment, refract(eyeVector, NORMAL, n1/n2)).rgb;
-	else
-		refract_global = water_color.rgb;
+	// manually create reflect map, 
+	vec3 reflect_global = mix(sky_color.rgb, horizon_color.rgb, min(vert_dist/fade_normal_distance, 1)/horizon_falloff_dist);
+	vec3 refract_global = water_color.rgb;
 	
 	ALBEDO = mix(refract_global, reflect_global, reflectiveness);
-//	ALBEDO = vec3(grid_distance/5.0);
 	ALPHA = alpha;
 }

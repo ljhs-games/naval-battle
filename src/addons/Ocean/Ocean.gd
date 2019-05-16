@@ -22,11 +22,6 @@ export(int) var seed_value = 0 setget set_seed
 var res = 300.0
 var initialized = false
 
-var counter = 0.5
-#var cube_cam = preload("res://CubeCamra.tscn")
-export (NodePath) var cube_cam_path
-onready var cube_cam = get_node(cube_cam_path) as cube_camera;
-
 #var waves = []
 var waves_in_tex = ImageTexture.new()
 
@@ -74,14 +69,7 @@ func _ready():
 func get_time() -> float:
 	return OS.get_ticks_msec()/1000.0 * speed
 
-func _process(delta):
-	counter -= delta
-	if counter <= 0:
-		if cube_cam != null:
-			var cube_map = cube_cam.update_cube_map()
-			material_override.set_shader_param('environment', cube_map)
-		counter = INF
-	
+func _process(_delta):
 	material_override.set_shader_param('time_offset', get_time())
 	initialized = true
 

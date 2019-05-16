@@ -33,7 +33,7 @@ shader_param/horizon_color = Color( 0.921569, 0.972549, 1, 1 )
 shader_param/horizon_falloff_dist = 1.45
 shader_param/water_color = Color( 0.0509804, 0.188235, 0.290196, 1 )
 shader_param/project_bias = 1.601
-shader_param/time_offset = 12868.0
+shader_param/time_offset = 19459.1
 shader_param/waves = SubResource( 5 )
 shader_param/noise = ExtResource( 2 )
 

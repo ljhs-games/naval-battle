@@ -6,6 +6,7 @@ export var zoom_speed = 35.0
 export var min_camera_height = 35.0
 
 onready var target_translation: Vector3 = translation
+onready var base_translation: Vector3 = translation
 
 func _ready():
 	set_physics_process(true)
@@ -32,6 +33,8 @@ func _input(event):
 		target_translation += get_zoom_direction() * -zoom_speed
 	elif event.is_action_pressed("g_zoom_out"):
 		target_translation += get_zoom_direction() * zoom_speed
+	elif event.is_action_pressed("g_cam_reset"):
+		target_translation = base_translation
 
 func get_camera_pos() -> Vector3:
 	return $Camera.global_transform.origin + (target_translation - translation)

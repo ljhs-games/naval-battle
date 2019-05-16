@@ -7,6 +7,10 @@ uniform float fade_normal_distance = 900.0;
 uniform float resolution = 200.0;
 uniform float n_max = 1.5;
 uniform float n_min = 1.0;
+uniform float fresnel_bias = 1.0;
+uniform float fresnel_scale = 1.0;
+uniform float fresnel_power = 1.0;
+
 uniform float alpha = 0.9;
 uniform float PI = 3.14159;
 
@@ -171,9 +175,10 @@ void vertex() {
 	vert_dist = length(VERTEX);
 }
 
-float fresnel(float n1, float n2, float cos_theta) {
+float fresnel(float n1, float n2, float eye_dot_normm) {
 	float R0 = pow((n1 - n2) / (n1+n2), 2);
-	return R0 + (1.0 - R0)*pow(1.0 - cos_theta, 5);
+	return max(0.0, min(1.0, fresnel_bias + fresnel_scale * pow(1.0 + eye_dot_normm, fresnel_power)));
+//	return R0 + (1.0 - R0)*pow(1.0 - cos_theta, 5);
 }
 
 void fragment() {
@@ -183,7 +188,7 @@ void fragment() {
 	float eye_dot_norm = dot(eyeVector, NORMAL);
 	float n1 = 1.0, n2 = 1.3333;
 	
-	float reflectiveness = fresnel(n1, n2, abs(eye_dot_norm));
+	float reflectiveness = fresnel(n1, n2, eye_dot_norm);
 	
 	// manually create reflect map, 
 	vec3 reflect_global = mix(sky_color.rgb, horizon_color.rgb, min(vert_dist/fade_normal_distance, 1)/horizon_falloff_dist);

@@ -69,13 +69,10 @@ func _ready():
 	material_override.set_shader_param('resolution', res)
 #	waves_in_tex = ImageTexture.new()
 	update_waves()
+	initialized = true
 
 func get_time() -> float:
 	return OS.get_ticks_msec()/1000.0 * speed
-
-func _process(_delta):
-	material_override.set_shader_param('time_offset', get_time())
-	initialized = true
 
 
 func set_seed(value):

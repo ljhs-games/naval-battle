@@ -11,6 +11,8 @@ uniform float fresnel_bias = 1.0;
 uniform float fresnel_scale = 1.0;
 uniform float fresnel_power = 1.0;
 
+uniform float speed = 7.81;
+
 uniform float alpha = 0.9;
 uniform float PI = 3.14159;
 
@@ -29,8 +31,6 @@ uniform float horizon_falloff_dist = 50.0;
 uniform vec4 water_color: hint_color;
 
 uniform float project_bias = 1.2;
-
-uniform float time_offset;
 
 mat3 getRotation(mat4 camera) {
 	return mat3(
@@ -164,8 +164,8 @@ void vertex() {
 	vec2 pre_displace = VERTEX.xz;
 	vec3 next_point = computeProjectedPosition(camPosition, camRotation, PROJECTION_MATRIX, screen_uv + vec2(1.0 / resolution));
 	float grid_distance = distance(VERTEX, next_point);
-	VERTEX = wave_interpolated(VERTEX.xz, time_offset, grid_distance);
-//	VERTEX = wave(VERTEX.xz, time_offset);
+	VERTEX = wave_interpolated(VERTEX.xz, TIME * speed, grid_distance);
+//	VERTEX = wave(VERTEX.xz, TIME * speed);
 	if( any(lessThan(screen_uv, vec2(0.0))) || any(greaterThan(screen_uv, vec2(1.0))) )
 		VERTEX.xz = pre_displace;
 	
@@ -182,7 +182,7 @@ float fresnel(float n1, float n2, float eye_dot_normm) {
 }
 
 void fragment() {
-	NORMAL = wave_normal(vert_coord, time_offset, vert_dist/80.0);
+	NORMAL = wave_normal(vert_coord, TIME * speed, vert_dist/80.0);
 	NORMAL = mix(NORMAL, vec3(0, -1.0, 0), min(vert_dist/fade_normal_distance, 1));
 	
 	float eye_dot_norm = dot(eyeVector, NORMAL);

@@ -182,8 +182,12 @@ float fresnel(float n1, float n2, float eye_dot_normm) {
 }
 
 void fragment() {
-	NORMAL = wave_normal(vert_coord, TIME * speed, vert_dist/80.0);
-	NORMAL = mix(NORMAL, vec3(0, -1.0, 0), min(vert_dist/fade_normal_distance, 1));
+	if(vert_dist >= fade_normal_distance) {
+		NORMAL = vec3(0.0, -1.0, 0.0);
+	} else {
+		NORMAL = wave_normal(vert_coord, TIME * speed, vert_dist/80.0);
+		NORMAL = mix(NORMAL, vec3(0, -1.0, 0), min(vert_dist/fade_normal_distance, 1));
+	}
 	
 	float eye_dot_norm = dot(eyeVector, NORMAL);
 	float n1 = 1.0, n2 = 1.3333;

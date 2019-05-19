@@ -11,7 +11,7 @@ var settings_file = File.new()
 
 var _settings = {
 	"audio": true,
-	"ocean_quality": OCEAN_QUALITY.low
+	"ocean_quality": OCEAN_QUALITY.high
 }
 
 func _ready():

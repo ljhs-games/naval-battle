@@ -26,12 +26,12 @@ func _physics_process(delta):
 
 func _input(event):
 	# pan movement with motion
-	if event is InputEventMouseMotion and Input.is_action_pressed("g_pan_input"):
+	if event is InputEventMouseMotion and Input.is_action_pressed(g_pan_input):
 		target_translation += Vector3(event.relative.x, -event.relative.y, 0.0)*pan_speed
 	# show and hide mouse when panning
-	elif event.is_action_pressed("g_pan_input"):
+	elif event.is_action_pressed(g_pan_input):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	elif event.is_action_released("g_pan_input"):
+	elif event.is_action_released(g_pan_input):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	elif event.is_action_pressed("g_zoom_in"):
 		target_translation += get_zoom_direction() * -zoom_speed

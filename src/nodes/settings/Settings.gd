@@ -11,7 +11,8 @@ var settings_file = File.new()
 
 var _settings = {
 	"audio": true,
-	"ocean_quality": OCEAN_QUALITY.high
+	"ocean_quality": OCEAN_QUALITY.high,
+	"touchpad_controls": false
 }
 
 func _ready():
@@ -20,7 +21,10 @@ func _ready():
 	if settings_file.file_exists(setting_filename):
 		settings_file.open(setting_filename, File.READ)
 		print("settings file: ", settings_file.get_path_absolute())
-		_settings = parse_json(settings_file.get_as_text())
+		var new_settings = parse_json(settings_file.get_as_text()) as Dictionary
+		for key in new_settings.keys():
+			if _settings.has(key):
+				_settings[key] = new_settings[key]
 		print(_settings)
 	settings_file.close()
 

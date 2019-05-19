@@ -27,8 +27,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Naval Battle"
-run/main_scene="res://scenes/MultiplayerBattle.tscn"
+run/main_scene="res://scenes/TitleScreen.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Settings="*res://nodes/settings/Settings.gd"
 
 [display]
 

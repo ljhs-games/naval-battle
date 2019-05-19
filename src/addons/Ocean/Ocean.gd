@@ -42,10 +42,33 @@ func set_wave_directions(new_wave_directions):
 	update_waves()
 
 func _ready():
-	if OS.get_cmdline_args().size() >= 1 and !Engine.editor_hint:
-		var new_res = OS.get_cmdline_args()[0].lstrip("-").to_float()
-		print(new_res)
-		res = new_res
+#	if OS.get_cmdline_args().size() >= 1 and !Engine.editor_hint:
+#		var new_res = OS.get_cmdline_args()[0].lstrip("-").to_float()
+#		print(new_res)
+#		res = new_res
+	if !Engine.editor_hint:
+		var ocean_quality = Settings.get_setting("ocean_quality")
+		print("Ocean quality setting: ", ocean_quality)
+		if ocean_quality == Settings.OCEAN_QUALITY.low:
+			print("low resolution")
+			res = 150.0
+			material_override.set_shader_param('fade_normal_distance', 300.0)
+		elif ocean_quality == Settings.OCEAN_QUALITY.high:
+			print("high resolution")
+			pass # default settings are high resolution
+		else:
+			printerr("Unknown ocean quality ", ocean_quality)
+#		match ocean_quality: # serious bugs with matching on enum?
+#			Settings.OCEAN_QUALITY.low:
+#				print("low resolution")
+#				res = 150
+#				material_override.set_shader_param('fade_normal_distance', 300.0)
+#			Settings.OCEAN_QUALITY.high:
+#				print("high resolution")
+#				pass # default settings are high resolution
+#			var erroneous_quality:
+#				printerr("Unknown ocean quality ", erroneous_quality)
+	
 	
 	for j in range(res):
 		var y = j/res - 0.5

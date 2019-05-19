@@ -3,6 +3,7 @@
 set -e
 
 GAME_EXECUTABLE_NAME="naval-battle"
+MAC_APP_FOLDERNAME="Naval Battle.app"
 #GAME_VERSION_FILE="buildnumber.txt"
 
 EXPORT_FOLDER="$(readlink -f exports)"
@@ -66,10 +67,18 @@ else
 	GAME_NAME="$GAME_EXECUTABLE_NAME"
 fi
 
+
+
 echo "Exporting $GAME_NAME v$GAME_VERSION..."
 cd "$SRC_FOLDER"
 godot --export "$EXPORT_TYPE" "$EXPORT_FOLDER/$GAME_NAME"
 cd "$EXPORT_FOLDER"
 #zip "${GAME_NAME}-${EXPORT_TYPE}v${GAME_VERSION}.zip" 
+
+if [ "$EXPORT_TYPE" == "mac" ]; then
+	unzip "$GAME_NAME"
+	EXPORT_FOLDER="$MAC_APP_FOLDERNAME"
+fi
+
 butler push "$EXPORT_FOLDER" "ljhsgames/naval-battle:$EXPORT_TYPE" --userversion "$GAME_VERSION"
 echo "Done"

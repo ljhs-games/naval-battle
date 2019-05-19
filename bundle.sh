@@ -3,6 +3,7 @@
 set -e
 
 GAME_EXECUTABLE_NAME="naval-battle"
+GAME_VERSION_FILE="buildnumber.txt"
 
 EXPORT_FOLDER="$(readlink -f exports)"
 SRC_FOLDER="$(readlink -f src)"
@@ -48,9 +49,15 @@ echo "Please ensure that Godot is only open to the project manager before export
 read -n1 -s
 #echo "Please export game to path in clipboard, then press any key to continue ..."
 #read -n1 -s
-read -p "Game Executable Name   : " GAME_NAME
+#read -p "Game Executable Name   : " GAME_NAME
 read -p "Export Type            : " EXPORT_TYPE
-read -p "Version                : " GAME_VERSION
+#read -p "Version                : " GAME_VERSION
+GAME_VERSION=$(<"$GAME_VERSION_FILE")
+if [ "$EXPORT_TYPE" == "windows" ]; then
+	GAME_NAME="${GAME_EXECUTABLE_NAME}.exe"
+else
+	GAME_NAME="$GAME_EXECUTABLE_NAME"
+fi
 echo "Exporting ..."
 cd "$SRC_FOLDER"
 godot --export "$EXPORT_TYPE" "$EXPORT_FOLDER/$GAME_NAME"

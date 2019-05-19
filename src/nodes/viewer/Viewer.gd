@@ -8,7 +8,11 @@ export var min_camera_height = 35.0
 onready var target_translation: Vector3 = translation
 onready var base_translation: Vector3 = translation
 
+var g_pan_input: String = "g_pan"
+
 func _ready():
+	if Settings.get_setting("touchpad_controls") == true:
+		g_pan_input = "g_pan_touchpad"
 	set_physics_process(true)
 	set_process_input(true)
 
@@ -22,12 +26,12 @@ func _physics_process(delta):
 
 func _input(event):
 	# pan movement with motion
-	if event is InputEventMouseMotion and Input.is_action_pressed("g_pan"):
+	if event is InputEventMouseMotion and Input.is_action_pressed("g_pan_input"):
 		target_translation += Vector3(event.relative.x, -event.relative.y, 0.0)*pan_speed
 	# show and hide mouse when panning
-	elif event.is_action_pressed("g_pan"):
+	elif event.is_action_pressed("g_pan_input"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	elif event.is_action_released("g_pan"):
+	elif event.is_action_released("g_pan_input"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	elif event.is_action_pressed("g_zoom_in"):
 		target_translation += get_zoom_direction() * -zoom_speed

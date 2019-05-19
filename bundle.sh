@@ -3,7 +3,7 @@
 set -e
 
 GAME_EXECUTABLE_NAME="naval-battle"
-GAME_VERSION_FILE="buildnumber.txt"
+#GAME_VERSION_FILE="buildnumber.txt"
 
 EXPORT_FOLDER="$(readlink -f exports)"
 SRC_FOLDER="$(readlink -f src)"
@@ -11,8 +11,7 @@ SRC_FOLDER="$(readlink -f src)"
 # Guide through exporting game 
 check_for() {
     echo "Checking for $1 ..."
-    if ! [ "$(command -v $1)" ]; then
-        echo "$1 not found! Exiting ..."
+    if ! [ "$(command -v $1)" ]; then echo "$1 not found! Exiting ..."
         exit 1
     fi
 }
@@ -45,6 +44,7 @@ cd "$EXPORT_FOLDER"
 echo "Copying $EXPORT_FOLDER path to clipboard ..."
 pwd | xclip -selection c
 cd ..
+echo "Ensure version number is incremented in buildnumber.txt ..."
 echo "Please ensure that Godot is only open to the project manager before exporting ..."
 read -n1 -s
 #echo "Please export game to path in clipboard, then press any key to continue ..."
@@ -52,16 +52,18 @@ read -n1 -s
 #read -p "Game Executable Name   : " GAME_NAME
 read -p "Export Type            : " EXPORT_TYPE
 #read -p "Version                : " GAME_VERSION
-GAME_VERSION=$(<"$GAME_VERSION_FILE")
+#GAME_VERSION=$(<"$GAME_VERSION_FILE")
+GIT_VERSION="$(git describe --abbrev=0)"
+GAME_VERSION="${git_version:1}"
 if [ "$EXPORT_TYPE" == "windows" ]; then
 	GAME_NAME="${GAME_EXECUTABLE_NAME}.exe"
 else
 	GAME_NAME="$GAME_EXECUTABLE_NAME"
 fi
-echo "Exporting ..."
+echo "Exporting $GAME_NAME v$GAME_VERSION..."
 cd "$SRC_FOLDER"
 godot --export "$EXPORT_TYPE" "$EXPORT_FOLDER/$GAME_NAME"
 #cd "$EXPORT_FOLDER"
-#zip "${GAME_NAME}-${EXPORT_TYPE}v${GAME_VERSION}.zip" *
-butler push "$EXPORT_FOLDER" "ljhsgames/naval-battle:$EXPORT_TYPE" --userversion-file buildnumber.txt
+#zip "${GAME_NAME}-${EXPORT_TYPE}v${GAME_VERSION}.zip" 
+butler push "$EXPORT_FOLDER" "ljhsgames/naval-battle:$EXPORT_TYPE" --userversion "$GAME_VERSION"
 echo "Done"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/main-world.tres" type="Environment" id=1]
 [ext_resource path="res://nodes/viewer/Viewer.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://nodes/fps-counter/FPSCounter.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/fonts/notosans-bold.tres" type="DynamicFont" id=6]
 [ext_resource path="res://nodes/fps-counter/FPSCounter.gd" type="Script" id=7]
+[ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=8]
 
 [node name="MultiplayerBattle" type="WorldEnvironment"]
 environment = ExtResource( 1 )
@@ -30,5 +31,14 @@ ocean_path = NodePath("../Ocean")
 custom_fonts/font = ExtResource( 6 )
 text = "error"
 script = ExtResource( 7 )
+
+[node name="TravelButton" parent="UI" instance=ExtResource( 8 )]
+anchor_left = 1.0
+anchor_bottom = 0.0
+margin_left = -724.0
+margin_top = -2.0
+margin_bottom = 138.0
+text = "Back To Titlescreen"
+target_scene = "res://scenes/TitleScreen.tscn"
 
 [editable path="Viewer"]

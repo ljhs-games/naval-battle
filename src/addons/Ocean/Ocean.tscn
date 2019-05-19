@@ -4,49 +4,51 @@
 [ext_resource path="res://addons/Ocean/noise_tileable.png" type="Texture" id=2]
 [ext_resource path="res://addons/Ocean/Ocean.gd" type="Script" id=3]
 
-[sub_resource type="Image" id=4]
+[sub_resource type="Image" id=1]
 data = {
-"data": PoolByteArray( 246, 40, 220, 61, 237, 158, 188, 61, 20, 166, 192, 190, 165, 126, 174, 63, 193, 40, 149, 61, 81, 107, 26, 61, 246, 40, 28, 62, 208, 162, 42, 63, 249, 166, 159, 63, 39, 225, 217, 61, 20, 29, 73, 62, 0, 0, 0, 0, 188, 31, 248, 62, 44, 15, 170, 63, 117, 204, 59, 62, 125, 29, 120, 62, 42, 169, 19, 62, 253, 255, 127, 191, 1, 0, 128, 191, 105, 2, 35, 62, 4, 231, 76, 62, 0, 0, 0, 0, 255, 241, 77, 191, 191, 224, 148, 63, 49, 213, 203, 61, 192, 91, 160, 62, 0, 0, 0, 0, 161, 109, 186, 190, 160, 234, 174, 63, 246, 109, 227, 61, 0, 0, 192, 63, 0, 0, 0, 0, 144, 166, 57, 63, 75, 104, 155, 63, 253, 173, 0, 61, 84, 193, 104, 63, 20, 63, 198, 61, 53, 182, 230, 190, 164, 149, 171, 63, 136, 12, 38, 61, 49, 153, 62, 64, 29, 167, 232, 60, 34, 3, 32, 191, 22, 97, 162, 63, 253, 173, 128, 60, 115, 104, 65, 63, 170, 207, 85, 62, 253, 255, 127, 63, 1, 0, 128, 191, 253, 173, 128, 61, 160, 248, 113, 62, 0, 0, 0, 0, 146, 60, 176, 191, 245, 87, 165, 62, 10, 85, 235, 61 ),
+"data": PoolByteArray( 166, 121, 159, 63, 204, 127, 72, 62, 23, 59, 111, 63, 63, 222, 135, 63, 126, 29, 183, 60, 178, 191, 100, 64, 221, 36, 70, 62, 187, 102, 151, 191, 84, 115, 70, 63, 166, 146, 171, 60, 141, 151, 254, 63, 127, 140, 185, 61, 176, 82, 179, 191, 19, 202, 69, 190, 5, 212, 98, 61, 224, 45, 176, 63, 96, 7, 206, 61, 4, 9, 157, 63, 151, 22, 52, 191, 213, 64, 118, 61 ),
 "format": "RFloat",
-"height": 11,
+"height": 4,
 "mipmaps": false,
 "width": 5
 }
 
-[sub_resource type="ImageTexture" id=5]
+[sub_resource type="ImageTexture" id=2]
 flags = 0
 flags = 0
-image = SubResource( 4 )
-size = Vector2( 5, 11 )
+image = SubResource( 1 )
+size = Vector2( 5, 4 )
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 1 )
 shader_param/fade_normal_distance = 900.0
 shader_param/resolution = 300.0
-shader_param/n_max = 22.88
+shader_param/n_max = 15.36
 shader_param/n_min = 10.57
 shader_param/fresnel_bias = -0.01
 shader_param/fresnel_scale = 0.54
 shader_param/fresnel_power = -6.65
+shader_param/speed = 7.81
 shader_param/alpha = 0.9
 shader_param/PI = 3.14159
-shader_param/noise_params = Plane( -1.054, 0.035, 0.3, 1 )
+shader_param/noise_params = Plane( 3.826, 0.011, 0.15, 1 )
 shader_param/sky_color = Color( 0.776471, 0.898039, 0.964706, 1 )
 shader_param/horizon_color = Color( 0.921569, 0.972549, 1, 1 )
 shader_param/horizon_falloff_dist = 1.45
 shader_param/water_color = Color( 0.0392157, 0.211765, 0.341176, 1 )
 shader_param/project_bias = 1.601
-shader_param/time_offset = 8832.57
-shader_param/waves = SubResource( 5 )
+shader_param/waves = SubResource( 2 )
 shader_param/noise = ExtResource( 2 )
 
 [node name="Ocean" type="ImmediateGeometry"]
 material_override = SubResource( 3 )
 script = ExtResource( 3 )
-waves = [ Vector3( 10.75, 9.21, 86.27 ), Vector3( 3.77, 15.25, 59.06 ), Vector3( 19.64, 0, 34.26 ), Vector3( 24.23, 14.42, 39.47 ), Vector3( 20.01, 0, 63.13 ), Vector3( 31.32, 0, 56.58 ), Vector3( 150, 0, 200 ), Vector3( 90.92, 9.68, 154.99 ), Vector3( 297.81, 2.84, 400 ), Vector3( 75.55, 20.88, 100 ), Vector3( 23.63, 0, 54.68 ) ]
-wave_directions = PoolRealArray( 60.43, 16.88, 24.96, 180, 79.67, 59.92, 14.15, 63.58, 71.23, 270, 121.8 )
-speed = 4.54
-n_max = 22.88
-noise_amplitude = -1.054
-noise_speed = 0.3
-seed_value = 14
+waves = [ Vector3( 124.59, 19.58, 281.09 ), Vector3( 357.42, 19.35, 300 ), Vector3( 198.9, 9.06, 113.46 ), Vector3( 137.64, 10.06, 104.51 ) ]
+wave_directions = PoolRealArray( 363.64, 101.76, 142.85, 285.17 )
+speed = 7.81
+n_max = 15.36
+n_min = 10.57
+noise_amplitude = 3.826
+noise_frequency = 0.011
+noise_speed = 0.15
+seed_value = 30

@@ -27,6 +27,7 @@ check_for "zip"
 check_for "rm"
 check_for "pwd"
 check_for "godot"
+check_for "butler"
 
 find_dir "$EXPORT_FOLDER"
 find_dir "$SRC_FOLDER"
@@ -49,6 +50,7 @@ read -p "Version                : " GAME_VERSION
 echo "Exporting ..."
 cd "$SRC_FOLDER"
 godot --export "$EXPORT_TYPE" "$EXPORT_FOLDER/$GAME_NAME"
-cd "$EXPORT_FOLDER"
-zip "${GAME_NAME}-${EXPORT_TYPE}v${GAME_VERSION}.zip" *
+#cd "$EXPORT_FOLDER"
+#zip "${GAME_NAME}-${EXPORT_TYPE}v${GAME_VERSION}.zip" *
+butler push "$EXPORT_FOLDER" "ljhsgames/naval-battle:$EXPORT_TYPE" --userversion "$GAME_VERSION"
 echo "Done"

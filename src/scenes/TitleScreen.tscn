@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/main-world.tres" type="Environment" id=1]
 [ext_resource path="res://addons/Ocean/Ocean.tscn" type="PackedScene" id=2]
@@ -6,6 +6,12 @@
 [ext_resource path="res://assets/fonts/settings-font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://nodes/quit-button/QuitButton.tscn" type="PackedScene" id=6]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends WorldEnvironment
+
+func _ready():
+	Settings.dump_settings() # for when coming back from settings"
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Button
@@ -17,6 +23,7 @@ func _on_DiscordButton_pressed():
 
 [node name="TitleScreen" type="WorldEnvironment"]
 environment = ExtResource( 1 )
+script = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( -0.948402, -0.178158, 0.262286, 0.000623652, 0.826166, 0.563427, -0.317071, 0.534519, -0.783426, 143.229, 62.1775, -85.0311 )

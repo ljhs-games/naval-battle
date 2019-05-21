@@ -48,13 +48,13 @@ func _ready():
 #		res = new_res
 	if !Engine.editor_hint:
 		var ocean_quality = Settings.get_setting("ocean_quality")
-		print("Ocean quality setting: ", ocean_quality)
+#		print("Ocean quality setting: ", ocean_quality)
 		if ocean_quality == Settings.OCEAN_QUALITY.low:
-			print("low resolution")
+#			print("low resolution")
 			res = 150.0
 			material_override.set_shader_param('fade_normal_distance', 300.0)
 		elif ocean_quality == Settings.OCEAN_QUALITY.high:
-			print("high resolution")
+#			print("high resolution")
 			pass # default settings are high resolution
 		else:
 			printerr("Unknown ocean quality ", ocean_quality)

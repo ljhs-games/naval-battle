@@ -7,23 +7,23 @@
 [ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://nodes/quit-button/QuitButton.tscn" type="PackedScene" id=6]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends WorldEnvironment
 
 func _ready():
 	Settings.dump_settings() # for when coming back from settings"
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Button
 
 const DISCORD_LINK = \"https://discordapp.com/invite/5g3zhph\"
 
 func _on_DiscordButton_pressed():
-	OS.shell_open(DISCORD_LINK)"
+	assert(OS.shell_open(DISCORD_LINK) == OK)"
 
 [node name="TitleScreen" type="WorldEnvironment"]
 environment = ExtResource( 1 )
-script = SubResource( 2 )
+script = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( -0.948402, -0.178158, 0.262286, 0.000623652, 0.826166, 0.563427, -0.317071, 0.534519, -0.783426, 143.229, 62.1775, -85.0311 )
@@ -56,38 +56,47 @@ margin_bottom = 730.0
 
 [node name="Title" type="Label" parent="UI/MarginContainer/VBoxContainer"]
 margin_right = 1070.0
-margin_bottom = 99.0
+margin_bottom = 50.0
 custom_fonts/font = ExtResource( 4 )
 text = "Naval Battle"
 align = 1
 
-[node name="GameTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="SingleplayerGameTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 103.0
+margin_top = 54.0
 margin_right = 1070.0
-margin_bottom = 208.0
-text = "Game"
+margin_bottom = 110.0
+text = "Singleplayer Game"
 target_scene = "res://scenes/MultiplayerBattle.tscn"
 
-[node name="DiscordButton" type="Button" parent="UI/MarginContainer/VBoxContainer"]
-margin_top = 212.0
+[node name="MultiplayerInviteTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 114.0
 margin_right = 1070.0
-margin_bottom = 317.0
+margin_bottom = 170.0
+text = "Invite Player"
+target_scene = "res://scenes/MultiplayerInvite.tscn"
+
+[node name="DiscordButton" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+margin_top = 174.0
+margin_right = 1070.0
+margin_bottom = 230.0
 custom_fonts/font = ExtResource( 4 )
 text = "Join the Discord"
-script = SubResource( 1 )
+script = SubResource( 2 )
 
 [node name="SettingsTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 321.0
+margin_top = 234.0
 margin_right = 1070.0
-margin_bottom = 426.0
+margin_bottom = 290.0
 text = "Settings"
 target_scene = "res://scenes/Settings.tscn"
 
 [node name="QuitButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 6 )]
-margin_top = 430.0
-margin_bottom = 535.0
+margin_top = 294.0
+margin_bottom = 350.0
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/DiscordButton" to="UI/MarginContainer/VBoxContainer/DiscordButton" method="_on_DiscordButton_pressed"]

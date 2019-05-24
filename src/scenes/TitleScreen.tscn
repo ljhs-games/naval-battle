@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/main-world.tres" type="Environment" id=1]
 [ext_resource path="res://addons/Ocean/Ocean.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://nodes/quit-button/QuitButton.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://scenes/AudioStreamPlayer.gd" type="Script" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends WorldEnvironment
@@ -58,6 +59,9 @@ transform = Transform( 0.555834, 0.250784, -0.792563, 0.704888, 0.363205, 0.6092
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -2.65015
+margin_right = -2.65015
+margin_bottom = 23.0
 custom_constants/margin_right = 800
 custom_constants/margin_top = 300
 custom_constants/margin_left = 50
@@ -136,4 +140,7 @@ text = "Version: "
 align = 2
 clip_text = true
 script = SubResource( 4 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+script = ExtResource( 8 )
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/DiscordButton" to="UI/MarginContainer/VBoxContainer/DiscordButton" method="_on_DiscordButton_pressed"]

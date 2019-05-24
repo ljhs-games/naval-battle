@@ -10,7 +10,7 @@ enum OCEAN_QUALITY { low, high }
 var settings_file = File.new()
 
 var _settings = {
-	"audio": true,
+	"audio_muted": false,
 	"ocean_quality": OCEAN_QUALITY.high,
 	"touchpad_controls": false
 }
@@ -18,6 +18,7 @@ var _settings = {
 func _ready():
 	assert(connect("tree_exiting", self, "_on_Settings_tree_exiting") == OK)
 	assert(get_tree().connect("tree_changed", self, "_on_Settings_tree_changed") == OK)
+	assert(connect("setting_changed", self, "_on_setting_changed") == OK)
 	if settings_file.file_exists(setting_filename):
 		settings_file.open(setting_filename, File.READ)
 		print("settings file: ", settings_file.get_path_absolute())
@@ -35,6 +36,11 @@ func _on_Settings_tree_changed():
 
 func _on_Settings_tree_exiting():
 	dump_settings()
+
+func _on_setting_changed(setting_name, new_value):
+	match setting_name:
+		"audio_muted":
+			AudioServer.set_bus_mute(0, new_value)
 
 func dump_settings():
 	settings_file.open(setting_filename, File.WRITE)

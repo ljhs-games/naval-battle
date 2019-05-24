@@ -48,6 +48,13 @@ func on_join_button_pressed():
 	if(network_data[\"VERSION_HASH\"] != GameVersion.get_version_hash()):
 		print_log(\"Server has an incompatable version of the game!\")
 		return
+	print_log(\"Connecting tree signals ...\")
+	check_err(get_tree().connect(\"network_peer_connected\", self, \"_on_connection\"))
+	check_err(get_tree().connect(\"network_peer_disconnected\", self, \"_on_disconnection\"))
+	check_err(get_tree().connect(\"connected_to_server\", self, \"_on_connection_with_server\"))
+	check_err(get_tree().connect(\"connection_failed\", self, \"_on_connection_failed\"))
+	check_err(get_tree().connect(\"server_disconnected\", self, \"_on_server_disconnected\"))
+	
 	print_log(\"Creating client with NetworkedMultiplayerEnet ...\")
 	peer = NetworkedMultiplayerENet.new()
 	print_log(\"Connecting to IP \" + str(network_data[\"IP\"]) + \" with port \" + str(network_data[\"PORT\"]))
@@ -55,9 +62,6 @@ func on_join_button_pressed():
 	print_log(\"Setting network peer in SceneTree ...\")
 	get_tree().set_network_peer(peer)
 	get_tree().set_meta(\"network_peer\", peer)
-	print_log(\"Fetching IP ...\")
-	$IPRequest.request(\"https://api.ipify.org\")
-	yield($IPRequest, \"request_completed\")
 	var errors_empty = true
 	for key in errors.keys():
 		if errors[key].size() != 0:
@@ -68,11 +72,6 @@ func on_join_button_pressed():
 #		network_data[\"IP\"] = \"127.0.0.1\"
 #		network_data[\"PORT\"] = PORT
 #		network_data[\"VERSION_HASH\"] = GameVersion.get_version_hash()
-		check_err(get_tree().connect(\"network_peer_connected\", self, \"_on_connection\"))
-		check_err(get_tree().connect(\"network_peer_disconnected\", self, \"_on_disconnection\"))
-		check_err(get_tree().connect(\"connected_to_server\", self, \"_on_connection_with_server\"))
-		check_err(get_tree().connect(\"connection_failed\", self, \"_on_connection_failed\"))
-		check_err(get_tree().connect(\"server_disconnected\", self, \"_on_server_disconnected\"))
 #		$UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyJoinCode.visible = true
 	else:
 		print_log(\"Failed to initialize ...\")

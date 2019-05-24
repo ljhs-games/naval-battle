@@ -89,7 +89,7 @@ export_game() {
 
 	echo "Exporting $GAME_NAME v$GAME_VERSION for $1..."
 	cd "$SRC_FOLDER"
-	godot-headless --export-debug "$1" "$EXPORT_FOLDER/$GAME_NAME" # must be debug to see version.txt?
+	godot-headless --export "$1" "$EXPORT_FOLDER/$GAME_NAME" # must be debug to see version.txt?
 	#zip "${GAME_NAME}-${1}v${GAME_VERSION}.zip" 
 
 	if [ "$1" == "mac" ]; then

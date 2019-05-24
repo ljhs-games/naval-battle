@@ -4,11 +4,13 @@ set -e
 
 GAME_EXECUTABLE_NAME="naval-battle"
 MAC_APP_FOLDERNAME="Naval Battle.app"
-PLATFORMS=( mac linux windows )
-#GAME_VERSION_FILE="buildnumber.txt"
+EDITOR_SETTINGS_PATH="$(readlink -f ~/.config/godot/editor_settings-3.tres)" # so can fix clearing settings on export
+PLATFORMS=( linux )
 
 EXPORT_FOLDER="$(readlink -f exports)"
 SRC_FOLDER="$(readlink -f src)"
+
+GAME_VERSION_FILE="$SRC_FOLDER/version.txt"
 
 # Guide through exporting game 
 check_for() {
@@ -26,7 +28,14 @@ find_dir() {
     fi
 }
 
-check_for "xclip"
+find_file() {
+	echo "Checking for $1 file ..."
+	if ! test -f "$1"; then
+		echo "$1 file not found! Exiting ..."
+		exit 1
+	fi
+}
+
 check_for "zip"
 check_for "rm"
 check_for "pwd"
@@ -36,8 +45,17 @@ check_for "butler"
 find_dir "$EXPORT_FOLDER"
 find_dir "$SRC_FOLDER"
 
+find_file "$EDITOR_SETTINGS_PATH"
+
 echo "Ensure version number is incremented using provided script ..."
 read -n1 -s
+
+echo "Please quit all instances of Godot ..."
+read -n1 -s
+
+echo "Caching editor settings ..."
+TEMP_EDITOR_SETTINGS_CACHE="$(mktemp /tmp/bundle.sh.XXXXXX)"
+cp "$EDITOR_SETTINGS_PATH" "$TEMP_EDITOR_SETTINGS_CACHE"
 
 #echo "Please export game to path in clipboard, then press any key to continue ..."
 #read -n1 -s
@@ -50,6 +68,8 @@ read -n1 -s
 #GAME_VERSION=$(<"$GAME_VERSION_FILE")
 GIT_VERSION="$(git describe --abbrev=0)"
 GAME_VERSION="${GIT_VERSION:1}"
+
+echo "$GAME_VERSION" > "$GAME_VERSION_FILE"
 
 export_game() {
 	echo "Deleting $EXPORT_FOLDER/ ..."
@@ -69,7 +89,7 @@ export_game() {
 
 	echo "Exporting $GAME_NAME v$GAME_VERSION for $1..."
 	cd "$SRC_FOLDER"
-	godot-headless --export "$1" "$EXPORT_FOLDER/$GAME_NAME"
+	godot-headless --export-debug "$1" "$EXPORT_FOLDER/$GAME_NAME" # must be debug to see version.txt?
 	#zip "${GAME_NAME}-${1}v${GAME_VERSION}.zip" 
 
 	if [ "$1" == "mac" ]; then
@@ -77,13 +97,19 @@ export_game() {
 		unzip "$GAME_NAME"
 		butler push "$MAC_APP_FOLDERNAME" "ljhsgames/naval-battle:$1" --userversion "$GAME_VERSION"
 	else
+		echo
 		butler push "$EXPORT_FOLDER" "ljhsgames/naval-battle:$1" --userversion "$GAME_VERSION"
 	fi
 
+	echo "Replacing editor settings ..."
+	cp "$TEMP_EDITOR_SETTINGS_CACHE" "$EDITOR_SETTINGS_PATH"
 }
 
 for i in "${PLATFORMS[@]}"
 do
 	export_game "$i"
 done
+
+rm "$GAME_VERSION_FILE"
+
 echo "Done"

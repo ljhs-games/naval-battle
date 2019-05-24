@@ -49,6 +49,7 @@ func on_join_button_pressed():
 		return
 	print_log(\"Creating client with NetworkedMultiplayerEnet ...\")
 	peer = NetworkedMultiplayerENet.new()
+	print_log(\"Connecting to IP \" + str(network_data[\"IP\"]) + \" with port \" + str(network_data[\"PORT\"]))
 	check_err(peer.create_client(network_data[\"IP\"], network_data[\"PORT\"]))
 	print_log(\"Setting network peer in SceneTree ...\")
 	get_tree().set_network_peer(peer)

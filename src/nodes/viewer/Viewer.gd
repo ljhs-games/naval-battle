@@ -37,7 +37,11 @@ func _physics_process(delta):
 	$Camera.transform.origin += (target_camera_transform.origin - $Camera.transform.origin) * smoothing * delta
 	var new_camera_pos = get_camera_pos()
 	if new_camera_pos.y <= min_camera_height:
-		if target_transform.basis.z.y < 0.0: # if rotating camera downard
+		if target_transform.basis.y.y < 0.0: # if upside down
+			target_transform.basis = target_transform.basis.rotated(target_transform.basis.z, PI)
+			target_transform.origin.y = min_camera_height
+			target_transform = target_transform.orthonormalized()
+		elif target_transform.basis.z.y < 0.0: # if rotating camera downard
 			target_transform.basis = target_transform.basis.rotated(target_transform.basis.x, altitude_angle(target_transform.basis.z))
 			target_transform = target_transform.orthonormalized()
 		target_transform.origin.y += min_camera_height - new_camera_pos.y

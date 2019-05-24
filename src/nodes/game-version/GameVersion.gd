@@ -17,7 +17,7 @@ func _ready():
 
 func get_version() -> String:
 	if version_found:
-		return gameversion_file.get_as_text()
+		return gameversion_file.get_as_text().rstrip('\n')
 	return "DEVELOP"
 
 func get_version_hash() -> int:

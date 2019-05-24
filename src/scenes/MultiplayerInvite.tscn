@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=2]
@@ -14,8 +14,16 @@ export (NodePath) var log_label_path
 
 onready var log_node = get_node(log_label_path) as Label
 
-var errors: PoolIntArray = PoolIntArray([])
-var upnp_errors: PoolIntArray = PoolIntArray([])
+var errors = {
+	\"general\":[],
+	\"upnp\":[],
+	\"HTTPRequest\":[]
+}
+
+var network_data = {}
+
+#var errors: PoolIntArray = PoolIntArray([])
+#var upnp_errors: PoolIntArray = PoolIntArray([])
 var upnp: UPNP
 var peer: NetworkedMultiplayerENet
 
@@ -34,14 +42,28 @@ func _ready():
 	print_log(\"Setting network peer in SceneTree ...\")
 	get_tree().set_network_peer(peer)
 	get_tree().set_meta(\"network_peer\", peer)
-	if errors.size() == 0 and upnp_errors.size() == 0:
+	print_log(\"Fetching IP ...\")
+	$IPRequest.request(\"https://api.ipify.org\")
+	yield($IPRequest, \"request_completed\")
+	var errors_empty = true
+	for key in errors.keys():
+		if errors[key].size() != 0:
+			errors_empty = false
+			break
+	if errors_empty:
 		print_log(\"Listening for connections ...\")
+#		network_data[\"IP\"] = \"127.0.0.1\"
+		network_data[\"PORT\"] = PORT
+		network_data[\"VERSION_HASH\"] = GameVersion.get_version_hash()
 		check_err(get_tree().connect(\"network_peer_connected\", self, \"_on_connection\"))
 		check_err(get_tree().connect(\"network_peer_disconnected\", self, \"_on_disconnection\"))
+		$UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyJoinCode.visible = true
 	else:
 		print_log(\"Failed to initialize ...\")
-		print_log(\"List of errors: \" + str(errors))
-		print_log(\"List of UPNP errors: \" + str(upnp_errors))
+		for err_type in errors.keys():
+			print_log(\"List of \" + err_type + \" errors: \" + str(errors[err_type]))
+#		print_log(\"List of errors: \" + str(errors[\"general\"]))
+#		print_log(\"List of UPNP errors: \" + str(errors[\"upnp\"]))
 		print_log(\"Copy the log to clipboard and send it to the Discord!\")
 
 func _on_connection(id: int):
@@ -64,35 +86,52 @@ func check_upnp_err(in_upnp_error: int):
 		var err_str = \"UPNP Error \" + str(in_upnp_error) + \"!\"
 		print_log(err_str)
 		printerr(err_str)
-		upnp_errors.append(in_upnp_error)
+		errors[\"upnp\"].append(in_upnp_error)
 
 func check_err(in_error: int):
 	if in_error != OK:
 		var err_str = \"Error \" + str(in_error) + \"!\"
 		print_log(err_str)
 		printerr(err_str)
-		errors.append(in_error)"
+		errors[\"general\"].append(in_error)
 
-[sub_resource type="StyleBoxFlat" id=3]
+func _on_CopyJoinCode_pressed():
+	OS.clipboard = Marshalls.utf8_to_base64(to_json(network_data))
+
+func _on_IPRequest_request_completed(result, response_code, headers, body):
+	if result != HTTPRequest.RESULT_SUCCESS:
+		printerr(\"Unable to fetch IP\")
+		print_log(\"HTTPRequest Error \" + str(result) + \"! Response code: \" + str(response_code))
+		errors[\"HTTPRequest\"].append(result)
+		print(errors[\"HTTPRequest\"])
+		return
+#	print(body.get_string_from_utf8())
+	network_data[\"IP\"] = (parse_json(body.get_string_from_utf8()))"
+
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.184314, 0.184314, 0.184314, 1 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=3]
 size = 36
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 28
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
+size = 28
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
 size = 36
 font_data = ExtResource( 2 )
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=6]
 script/source = "extends Button
 
 func _on_CopyLog_pressed():
 	OS.clipboard = get_node(\"../LogLabel\").text"
+
+[sub_resource type="DynamicFont" id=7]
+size = 36
+font_data = ExtResource( 2 )
 
 [node name="MultiplayerInvite" type="Node2D"]
 script = SubResource( 1 )
@@ -105,7 +144,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/PanelContainer"]
 margin_right = 1920.0
@@ -128,7 +167,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1840.0
 margin_bottom = 56.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 3 )
 text = "Back"
 target_scene = "res://scenes/TitleScreen.tscn"
 
@@ -138,15 +177,33 @@ margin_right = 1840.0
 margin_bottom = 940.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "error"
 
-[node name="CopyLog" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer/MarginContainer/VBoxContainer"]
 margin_top = 944.0
 margin_right = 1840.0
 margin_bottom = 1000.0
-custom_fonts/font = SubResource( 4 )
+
+[node name="CopyLog" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 1840.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 5 )
 text = "Copy Log to Clipboard"
-script = SubResource( 5 )
+script = SubResource( 6 )
+
+[node name="CopyJoinCode" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 1575.0
+margin_right = 1840.0
+margin_bottom = 56.0
+custom_fonts/font = SubResource( 7 )
+text = "Copy Join Code"
+
+[node name="IPRequest" type="HTTPRequest" parent="."]
 [connection signal="tree_exiting" from="." to="." method="_on_scene_exit"]
-[connection signal="pressed" from="UI/PanelContainer/MarginContainer/VBoxContainer/CopyLog" to="UI/PanelContainer/MarginContainer/VBoxContainer/CopyLog" method="_on_CopyLog_pressed"]
+[connection signal="pressed" from="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyLog" to="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyLog" method="_on_CopyLog_pressed"]
+[connection signal="pressed" from="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyJoinCode" to="." method="_on_CopyJoinCode_pressed"]
+[connection signal="request_completed" from="IPRequest" to="." method="_on_IPRequest_request_completed"]

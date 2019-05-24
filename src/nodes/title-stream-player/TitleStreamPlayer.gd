@@ -20,12 +20,10 @@ func _ready():
 	#audio looping:
 	randomize()
 	
-	connect("finished", self, "play_random_song")
 	play_random_song()
 	
 func play_random_song():
-	randomize()
-	
+	stop()
 	var rand_nb = randi() % tracks.size()
 	var audiostream = load('res://assets/title-loops/' + tracks[rand_nb] + '.ogg')
 	set_stream(audiostream)

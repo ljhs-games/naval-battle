@@ -5,7 +5,7 @@ set -e
 GAME_EXECUTABLE_NAME="naval-battle"
 MAC_APP_FOLDERNAME="Naval Battle.app"
 EDITOR_SETTINGS_PATH="$(readlink -f ~/.config/godot/editor_settings-3.tres)" # so can fix clearing settings on export
-PLATFORMS=( linux )
+PLATFORMS=( linux mac windows )
 
 EXPORT_FOLDER="$(readlink -f exports)"
 SRC_FOLDER="$(readlink -f src)"

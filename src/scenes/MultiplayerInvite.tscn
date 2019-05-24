@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=2]
@@ -105,7 +105,10 @@ func _on_IPRequest_request_completed(result, response_code, _headers, body):
 		errors[\"HTTPRequest\"].append(result)
 		print(errors[\"HTTPRequest\"])
 		return
-	network_data[\"IP\"] = body.get_string_from_utf8()"
+	network_data[\"IP\"] = body.get_string_from_utf8()
+
+func _on_CopyLog_pressed():
+	OS.clipboard = $UI/PanelContainer/MarginContainer/VBoxContainer/LogLabel.text"
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.184314, 0.184314, 0.184314, 1 )
@@ -121,12 +124,6 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=5]
 size = 36
 font_data = ExtResource( 2 )
-
-[sub_resource type="GDScript" id=6]
-script/source = "extends Button
-
-func _on_CopyLog_pressed():
-	OS.clipboard = get_node(\"../LogLabel\").text"
 
 [sub_resource type="DynamicFont" id=7]
 size = 36
@@ -191,7 +188,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 5 )
 text = "Copy Log to Clipboard"
-script = SubResource( 6 )
 
 [node name="CopyJoinCode" type="Button" parent="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 visible = false
@@ -203,6 +199,6 @@ text = "Copy Join Code"
 
 [node name="IPRequest" type="HTTPRequest" parent="."]
 [connection signal="tree_exiting" from="." to="." method="_on_scene_exit"]
-[connection signal="pressed" from="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyLog" to="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyLog" method="_on_CopyLog_pressed"]
+[connection signal="pressed" from="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyLog" to="." method="_on_CopyLog_pressed"]
 [connection signal="pressed" from="UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyJoinCode" to="." method="_on_CopyJoinCode_pressed"]
 [connection signal="request_completed" from="IPRequest" to="." method="_on_IPRequest_request_completed"]

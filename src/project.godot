@@ -33,6 +33,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Settings="*res://nodes/settings/Settings.gd"
+GameVersion="*res://nodes/game-version/GameVersion.gd"
 
 [display]
 

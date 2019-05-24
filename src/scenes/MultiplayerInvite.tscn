@@ -106,7 +106,8 @@ func _on_IPRequest_request_completed(result, response_code, _headers, body):
 		print(errors[\"HTTPRequest\"])
 		return
 #	print(body.get_string_from_utf8())
-	network_data[\"IP\"] = (parse_json(body.get_string_from_utf8()))"
+	network_data[\"IP\"] = (parse_json(body.get_string_from_utf8()))
+	print_log(\"Server IP: \" + str(network_data[\"IP\"]))"
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.184314, 0.184314, 0.184314, 1 )

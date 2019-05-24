@@ -39,6 +39,7 @@ func _ready():
 
 func on_join_button_pressed():
 	print_log(\"Parsing join code ...\")
+	print(\"Join code JSON: \", Marshalls.base64_to_utf8($UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinCodeEdit.text))
 	network_data = parse_json(Marshalls.base64_to_utf8($UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinCodeEdit.text)) as Dictionary
 	if not network_data.has(\"PORT\") or not network_data.has(\"IP\") or not network_data.has(\"VERSION_HASH\"):
 		print_log(\"Network data of \" + str(network_data) + \" is incomplete!\")

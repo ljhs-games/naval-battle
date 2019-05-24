@@ -98,7 +98,7 @@ func check_err(in_error: int):
 func _on_CopyJoinCode_pressed():
 	OS.clipboard = Marshalls.utf8_to_base64(to_json(network_data))
 
-func _on_IPRequest_request_completed(result, response_code, headers, body):
+func _on_IPRequest_request_completed(result, response_code, _headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		printerr(\"Unable to fetch IP\")
 		print_log(\"HTTPRequest Error \" + str(result) + \"! Response code: \" + str(response_code))

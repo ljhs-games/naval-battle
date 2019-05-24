@@ -54,7 +54,7 @@ func _ready():
 		print_log(\"Listening for connections ...\")
 #		network_data[\"IP\"] = \"127.0.0.1\"
 		network_data[\"PORT\"] = PORT
-		network_data[\"VERSION_HASH\"] = GameVersion.get_version_hash()
+		network_data[\"VERSION\"] = GameVersion.get_version()
 		check_err(get_tree().connect(\"network_peer_connected\", self, \"_on_connection\"))
 		check_err(get_tree().connect(\"network_peer_disconnected\", self, \"_on_disconnection\"))
 		$UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CopyJoinCode.visible = true
@@ -125,7 +125,7 @@ font_data = ExtResource( 2 )
 size = 36
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 36
 font_data = ExtResource( 2 )
 
@@ -194,7 +194,7 @@ visible = false
 margin_left = 1575.0
 margin_right = 1840.0
 margin_bottom = 56.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 text = "Copy Join Code"
 
 [node name="IPRequest" type="HTTPRequest" parent="."]

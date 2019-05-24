@@ -41,11 +41,11 @@ func on_join_button_pressed():
 	print_log(\"Parsing join code ...\")
 	print(\"Join code JSON: \", Marshalls.base64_to_utf8($UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinCodeEdit.text))
 	network_data = parse_json(Marshalls.base64_to_utf8($UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinCodeEdit.text)) as Dictionary
-	if not network_data.has(\"PORT\") or not network_data.has(\"IP\") or not network_data.has(\"VERSION_HASH\"):
+	if not network_data.has(\"PORT\") or not network_data.has(\"IP\") or not network_data.has(\"VERSION\"):
 		print_log(\"Network data of \" + str(network_data) + \" is incomplete!\")
 		return
-	print_log(\"Checking version hash ...\")
-	if(network_data[\"VERSION_HASH\"] != GameVersion.get_version_hash()):
+	print_log(\"Checking versions ...\")
+	if(network_data[\"VERSION\"].hash() != GameVersion.get_version_hash()):
 		print_log(\"Server has an incompatable version of the game!\")
 		return
 	print_log(\"Connecting tree signals ...\")

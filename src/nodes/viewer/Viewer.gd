@@ -4,10 +4,10 @@ enum ZOOM_STATE { zoom_in, zoom_out, stationary }
 
 export var smoothing = 8.0
 export var rotational_smoothing = 10.0
-export var pan_speed = 1.0
-export var zoom_speed = 35.0
+export var pan_speed = 1.5
+export var zoom_speed = 60.0
 export var min_camera_height = 35.0
-export var rotational_speed = 0.0015
+export var rotational_speed = 0.002
 
 onready var target_transform: Transform = transform
 onready var base_transform: Transform = transform

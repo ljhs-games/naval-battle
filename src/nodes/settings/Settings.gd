@@ -34,7 +34,6 @@ func _ready():
 
 func _on_Settings_tree_changed():
 	#print("Updating")
-	print("Updating")
 	for setting_name in _settings.keys():
 		emit_signal("setting_changed", setting_name, _settings[setting_name])
 

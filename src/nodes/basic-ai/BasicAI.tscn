@@ -8,9 +8,10 @@ radius = 200.0
 [node name="BasicAI" type="Spatial"]
 script = ExtResource( 1 )
 sight_radius = 200.0
+target_group = "ships"
 
-[node name="Area" type="Area" parent="."]
+[node name="TargetArea" type="Area" parent="."]
 
-[node name="CollisionShape" type="CollisionShape" parent="Area"]
+[node name="CollisionShape" type="CollisionShape" parent="TargetArea"]
 shape = SubResource( 1 )
-[connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]
+[connection signal="area_entered" from="TargetArea" to="." method="_on_Area_area_entered"]

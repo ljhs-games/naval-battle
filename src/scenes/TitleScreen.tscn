@@ -2,12 +2,12 @@
 
 [ext_resource path="res://assets/main-world.tres" type="Environment" id=1]
 [ext_resource path="res://addons/Ocean/Ocean.tscn" type="PackedScene" id=2]
-[ext_resource path="res://nodes/dummy-ship/DummyShip.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/fonts/settings-font.tres" type="DynamicFont" id=4]
-[ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=5]
-[ext_resource path="res://nodes/quit-button/QuitButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://nodes/title-stream-player/TitleStreamPlayer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/fonts/settings-font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://nodes/quit-button/QuitButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://nodes/title-stream-player/TitleStreamPlayer.tscn" type="PackedScene" id=7]
+[ext_resource path="res://nodes/curtis-wilbur/CurtisWilbur.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends WorldEnvironment
@@ -26,7 +26,7 @@ func _on_DiscordButton_pressed():
 
 [sub_resource type="DynamicFont" id=3]
 size = 28
-font_data = ExtResource( 7 )
+font_data = ExtResource( 6 )
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends Label
@@ -46,16 +46,12 @@ far = 5000.0
 
 [node name="Ocean" parent="." instance=ExtResource( 2 )]
 speed = 10.44
-noise_enabled = true
-
-[node name="DummyShip" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1898, 0 )
-ocean_path = NodePath("../../TitleScreen/Ocean")
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.555834, 0.250784, -0.792563, 0.704888, 0.363205, 0.609273, 0.440659, -0.897323, 0.0251073, 0, 56.3866, 0 )
 
 [node name="UI" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
@@ -77,11 +73,11 @@ margin_bottom = 1053.0
 [node name="Title" type="Label" parent="UI/MarginContainer/VBoxContainer"]
 margin_right = 1070.0
 margin_bottom = 99.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
 text = "Naval Battle"
 align = 1
 
-[node name="SingleplayerGameTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="SingleplayerGameTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 103.0
@@ -90,7 +86,7 @@ margin_bottom = 208.0
 text = "Singleplayer Game"
 target_scene = "res://scenes/MultiplayerBattle.tscn"
 
-[node name="MultiplayerInviteTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="MultiplayerInviteTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 212.0
@@ -99,7 +95,7 @@ margin_bottom = 317.0
 text = "Invite Player"
 target_scene = "res://scenes/MultiplayerInvite.tscn"
 
-[node name="MultiplayerJoinTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="MultiplayerJoinTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 321.0
@@ -112,11 +108,11 @@ target_scene = "res://scenes/MultiplayerJoin.tscn"
 margin_top = 430.0
 margin_right = 1070.0
 margin_bottom = 535.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
 text = "Join the Discord"
 script = SubResource( 2 )
 
-[node name="SettingsTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="SettingsTravelButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 539.0
@@ -125,7 +121,7 @@ margin_bottom = 644.0
 text = "Settings"
 target_scene = "res://scenes/Settings.tscn"
 
-[node name="QuitButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 6 )]
+[node name="QuitButton" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
 margin_top = 648.0
 margin_bottom = 753.0
 
@@ -142,5 +138,10 @@ align = 2
 clip_text = true
 script = SubResource( 4 )
 
-[node name="TitleStreamPlayer" parent="." instance=ExtResource( 8 )]
+[node name="TitleStreamPlayer" parent="." instance=ExtResource( 7 )]
+
+[node name="CurtisWilbur" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.2283, 0 )
+ocean_path = NodePath("../Ocean")
+buoyancy_constant = 9.0
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/DiscordButton" to="UI/MarginContainer/VBoxContainer/DiscordButton" method="_on_DiscordButton_pressed"]

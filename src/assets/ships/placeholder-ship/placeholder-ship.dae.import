@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/placeholder-ship.dae-d421e68458daad9e660fe98fc2429a2a.scn"
+path="res://.import/placeholder-ship.dae-61822590595cecd34d7afb09d5bc8af9.scn"
 
 [deps]
 
-source_file="res://assets/placeholder-ship/placeholder-ship.dae"
-dest_files=[ "res://.import/placeholder-ship.dae-d421e68458daad9e660fe98fc2429a2a.scn" ]
+source_file="res://assets/ships/placeholder-ship/placeholder-ship.dae"
+dest_files=[ "res://.import/placeholder-ship.dae-61822590595cecd34d7afb09d5bc8af9.scn" ]
 
 [params]
 

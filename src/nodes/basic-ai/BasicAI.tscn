@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://nodes/basic-ai/BasicAI.gd" type="Script" id=1]
+
+[sub_resource type="SphereShape" id=1]
+radius = 200.0
+
+[node name="BasicAI" type="Spatial"]
+script = ExtResource( 1 )
+sight_radius = 200.0
+
+[node name="Area" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 1 )
+[connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]

@@ -142,6 +142,5 @@ script = SubResource( 4 )
 
 [node name="CurtisWilbur" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.2283, 0 )
-ocean_path = NodePath("../Ocean")
 buoyancy_constant = 9.0
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/DiscordButton" to="UI/MarginContainer/VBoxContainer/DiscordButton" method="_on_DiscordButton_pressed"]

@@ -6,4 +6,5 @@ export (String, FILE, "*.tscn") var target_scene
 
 
 func _on_TravelButton_pressed():
-	get_tree().change_scene(target_scene)
+	var travel_state = get_tree().change_scene(target_scene)
+	assert(travel_state == OK)

@@ -21,7 +21,8 @@ script/source = "extends Button
 const DISCORD_LINK = \"https://discordapp.com/invite/5g3zhph\"
 
 func _on_DiscordButton_pressed():
-	assert(OS.shell_open(DISCORD_LINK) == OK)"
+# warning-ignore:return_value_discarded
+	OS.shell_open(DISCORD_LINK)"
 
 [sub_resource type="DynamicFont" id=3]
 size = 28

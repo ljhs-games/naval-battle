@@ -16,9 +16,12 @@ var _settings = {
 }
 
 func _ready():
-	assert(connect("tree_exiting", self, "_on_Settings_tree_exiting") == OK)
-	assert(get_tree().connect("tree_changed", self, "_on_Settings_tree_changed") == OK)
-	assert(connect("setting_changed", self, "_on_setting_changed") == OK)
+# warning-ignore:return_value_discarded
+	connect("tree_exiting", self, "_on_Settings_tree_exiting")
+# warning-ignore:return_value_discarded
+	get_tree().connect("tree_changed", self, "_on_Settings_tree_changed")
+# warning-ignore:return_value_discarded
+	connect("setting_changed", self, "_on_setting_changed")
 	if settings_file.file_exists(setting_filename):
 		settings_file.open(setting_filename, File.READ)
 		print("settings file: ", settings_file.get_path_absolute())
@@ -31,6 +34,7 @@ func _ready():
 
 func _on_Settings_tree_changed():
 	#print("Updating")
+	print("Updating")
 	for setting_name in _settings.keys():
 		emit_signal("setting_changed", setting_name, _settings[setting_name])
 

@@ -30,7 +30,6 @@ var peer: NetworkedMultiplayerENet
 func _ready():
 #	yield(get_tree().create_timer(1.0), \"timeout\")
 	log_node.text = \"\"
-	assert(log_node != null)
 #	upnp = UPNP.new()
 #	print_log(\"Discovering upnp fdsfads...\")
 #	check_upnp_err(upnp.discover())

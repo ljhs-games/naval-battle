@@ -17,6 +17,7 @@ onready var base_camera_transform: Transform = $Camera.transform
 var g_pan_input: String = "g_pan"
 var look_vector: Vector2 = Vector2()
 var cur_zoom_state: int = ZOOM_STATE.stationary
+var reversed = 1
 
 func _ready():
 	if Settings.get_setting("touchpad_controls") == true:
@@ -28,9 +29,9 @@ func _ready():
 func _physics_process(delta):
 	match cur_zoom_state:
 		ZOOM_STATE.zoom_in:
-			target_camera_transform.origin += get_zoom_direction() * -zoom_speed
+			target_camera_transform.origin += get_zoom_direction() * -zoom_speed * reversed
 		ZOOM_STATE.zoom_out:
-			target_camera_transform.origin += get_zoom_direction() * zoom_speed
+			target_camera_transform.origin += get_zoom_direction() * zoom_speed * reversed
 
 
 	transform.origin += (target_transform.origin - transform.origin) * smoothing * delta
@@ -45,9 +46,14 @@ func _physics_process(delta):
 			target_transform.basis = target_transform.basis.rotated(target_transform.basis.x, altitude_angle(target_transform.basis.z))
 			target_transform = target_transform.orthonormalized()
 		target_transform.origin.y += min_camera_height - new_camera_pos.y
+	if (target_camera_transform.basis.z.dot(target_transform.origin - target_camera_transform.origin)) > 0: # if zoomed in so camera not facing center
+		target_camera_transform.basis = target_camera_transform.basis.rotated(Vector3(0, 1, 0), PI)
+		reversed = -reversed
 	
 
 	transform.basis = transform.basis.slerp(target_transform.basis, rotational_smoothing * delta)
+	$Camera.transform.basis = $Camera.transform.basis.slerp(target_camera_transform.basis, rotational_smoothing * delta)
+	print($Camera.transform.basis.z)
 	transform = transform.orthonormalized()
 
 func _input(event):
@@ -55,12 +61,12 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		if Input.is_action_pressed(g_pan_input):
 			if Input.is_action_pressed("g_pan_forward"):
-				target_transform.origin += Vector3(event.relative.x, 0, event.relative.y).rotated(Vector3(0, 1, 0), rotation.y)*pan_speed
+				target_transform.origin += Vector3(event.relative.x*reversed, 0, event.relative.y*reversed).rotated(Vector3(0, 1, 0), rotation.y)*pan_speed
 			else:
-				target_transform.origin += Vector3(event.relative.x, -event.relative.y, 0.0).rotated(Vector3(0, 1, 0), rotation.y)*pan_speed
+				target_transform.origin += Vector3(event.relative.x*reversed, -event.relative.y, 0.0).rotated(Vector3(0, 1, 0), rotation.y)*pan_speed
 		if Input.is_action_pressed("g_rotate_about"):
 			target_transform.basis = target_transform.basis.rotated(Vector3(0, 1, 0), -event.relative.x*rotational_speed)
-			target_transform.basis = target_transform.basis.rotated(target_transform.basis.x, -event.relative.y*rotational_speed)
+			target_transform.basis = target_transform.basis.rotated(target_transform.basis.x, -event.relative.y*rotational_speed*reversed)
 
 	# rotate about point with motion
 	# show and hide mouse when panning
@@ -73,10 +79,10 @@ func _input(event):
 	elif event.is_action_released("g_rotate_about"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	elif event.is_action_pressed("g_zoom_in"):
-		target_camera_transform.origin += get_zoom_direction() * -zoom_speed
+		target_camera_transform.origin += get_zoom_direction() * -zoom_speed * reversed
 		cur_zoom_state = ZOOM_STATE.zoom_in
 	elif event.is_action_pressed("g_zoom_out"):
-		target_camera_transform.origin += get_zoom_direction() * zoom_speed
+		target_camera_transform.origin += get_zoom_direction() * zoom_speed * reversed
 		cur_zoom_state = ZOOM_STATE.zoom_out
 	elif event.is_action_released("g_zoom_in") or event.is_action_released("g_zoom_out"):
 		cur_zoom_state = ZOOM_STATE.stationary

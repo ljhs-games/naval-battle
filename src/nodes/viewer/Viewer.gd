@@ -53,7 +53,6 @@ func _physics_process(delta):
 
 	transform.basis = transform.basis.slerp(target_transform.basis, rotational_smoothing * delta)
 	$Camera.transform.basis = $Camera.transform.basis.slerp(target_camera_transform.basis, rotational_smoothing * delta)
-	print($Camera.transform.basis.z)
 	transform = transform.orthonormalized()
 
 func _input(event):

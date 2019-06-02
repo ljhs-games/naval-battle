@@ -45,6 +45,7 @@ func _physics_process(delta):
 			target_transform.basis = target_transform.basis.rotated(target_transform.basis.x, altitude_angle(target_transform.basis.z))
 			target_transform = target_transform.orthonormalized()
 		target_transform.origin.y += min_camera_height - new_camera_pos.y
+	
 
 	transform.basis = transform.basis.slerp(target_transform.basis, rotational_smoothing * delta)
 	transform = transform.orthonormalized()

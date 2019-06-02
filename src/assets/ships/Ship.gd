@@ -2,7 +2,6 @@ extends RigidBody
 
 export var buoyancy_constant = 1.0
 
-onready var gravity = ProjectSettings.get("physics/3d/default_gravity")
 var base_height: float
 
 func _ready():
@@ -16,3 +15,11 @@ func _integrate_forces(state: PhysicsDirectBodyState):
 	else:
 		archimedes_force = sqrt(archimedes_force)
 	state.add_central_force(Vector3(0.0, archimedes_force*buoyancy_constant, 0.0))
+	for c in get_children():
+		if c.is_in_group("physical"):
+			c.integrate_parent_forces(self, state)
+
+# warning-ignore:unused_argument
+func fire_at(target_node):
+	print("Battle positions!")
+	pass

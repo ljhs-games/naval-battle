@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/main-world.tres" type="Environment" id=1]
 [ext_resource path="res://nodes/viewer/Viewer.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://nodes/fps-counter/FPSCounter.gd" type="Script" id=6]
 [ext_resource path="res://nodes/travel-button/TravelButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://nodes/curtis-wilbur/CurtisWilbur.tscn" type="PackedScene" id=8]
+[ext_resource path="res://nodes/basic-movement/BasicMovement.tscn" type="PackedScene" id=9]
+[ext_resource path="res://nodes/basic-ai/BasicAI.tscn" type="PackedScene" id=10]
 
 [node name="MultiplayerBattle" type="WorldEnvironment"]
 environment = ExtResource( 1 )
@@ -20,6 +22,7 @@ shadow_bias = 15.5
 directional_shadow_max_distance = 196.0
 
 [node name="Ocean" parent="." instance=ExtResource( 3 )]
+noise_enabled = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -37,8 +40,18 @@ margin_bottom = 138.0
 text = "Back To Titlescreen"
 target_scene = "res://scenes/TitleScreen.tscn"
 
-[node name="CurtisWilbur" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.8567, 0 )
+[node name="CurtisWilbur2" parent="." groups=[
+"blue-team",
+] instance=ExtResource( 8 )]
+transform = Transform( 0.760713, 0, -0.649089, 0, 1, 0, 0.649089, 0, 0.760713, 0, 14.8567, 0 )
 buoyancy_constant = 6.0
 
+[node name="BasicMovement" parent="CurtisWilbur2" instance=ExtResource( 9 )]
+velocity_pid_parameters = Vector3( 9, 1.2, 0 )
+
+[node name="BasicAI" parent="CurtisWilbur2" instance=ExtResource( 10 )]
+sight_radius = 2000.0
+
 [editable path="Viewer"]
+
+[editable path="CurtisWilbur2/BasicAI"]

@@ -3,15 +3,13 @@
 [ext_resource path="res://nodes/basic-ai/BasicAI.gd" type="Script" id=1]
 
 [sub_resource type="SphereShape" id=1]
-radius = 200.0
+radius = 2000.0
 
 [node name="BasicAI" type="Spatial"]
 script = ExtResource( 1 )
-sight_radius = 200.0
-target_group = "ships"
 
-[node name="TargetArea" type="Area" parent="."]
+[node name="DetectionArea" type="Area" parent="."]
 
-[node name="CollisionShape" type="CollisionShape" parent="TargetArea"]
+[node name="CollisionShape" type="CollisionShape" parent="DetectionArea"]
 shape = SubResource( 1 )
-[connection signal="area_entered" from="TargetArea" to="." method="_on_Area_area_entered"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_DetectionArea_body_entered"]

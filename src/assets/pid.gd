@@ -5,6 +5,7 @@ class_name PID
 var Kp = 1.0
 var Ki = 1.0
 var Kd = 1.0
+var minimum_output = 0.0
 
 var setpoint = 0.0
 var PTerm = 0.0
@@ -45,3 +46,5 @@ func update(error: float, delta_time: float):
 	last_error = error
 	
 	output = PTerm + (Ki * ITerm) + (Kd * DTerm)
+	if abs(output) < minimum_output:
+		output = 0.0

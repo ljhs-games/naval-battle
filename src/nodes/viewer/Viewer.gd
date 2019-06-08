@@ -18,6 +18,7 @@ var g_pan_input: String = "g_pan"
 var look_vector: Vector2 = Vector2()
 var cur_zoom_state: int = ZOOM_STATE.stationary
 var reversed = 1
+var target_node = null
 
 func _ready():
 	if Settings.get_setting("touchpad_controls") == true:
@@ -33,7 +34,8 @@ func _physics_process(delta):
 		ZOOM_STATE.zoom_out:
 			target_camera_transform.origin += get_zoom_direction() * zoom_speed * reversed
 
-
+	if target_node:
+		target_transform.origin = target_node.global_transform.origin
 	transform.origin += (target_transform.origin - transform.origin) * smoothing * delta
 	$Camera.transform.origin += (target_camera_transform.origin - $Camera.transform.origin) * smoothing * delta
 	var new_camera_pos = get_camera_pos()
@@ -71,6 +73,7 @@ func _input(event):
 	# show and hide mouse when panning
 	elif event.is_action_pressed(g_pan_input):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		target_node = null
 	elif event.is_action_released(g_pan_input):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	elif event.is_action_pressed("g_rotate_about"):
@@ -86,8 +89,10 @@ func _input(event):
 	elif event.is_action_released("g_zoom_in") or event.is_action_released("g_zoom_out"):
 		cur_zoom_state = ZOOM_STATE.stationary
 	elif event.is_action_pressed("g_cam_reset"):
+		target_node = null
 		target_transform = base_transform
 		target_camera_transform = base_camera_transform
+		reversed = 1
 		look_vector = Vector2()
 
 func get_camera_pos() -> Vector3:

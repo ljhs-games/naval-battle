@@ -44,7 +44,7 @@ text = "Back To Titlescreen"
 target_scene = "res://scenes/TitleScreen.tscn"
 
 [node name="CurtisWilbur2" parent="." groups=[
-"blue-team",
+"red-team",
 ] instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.27032, 0 )
 linear_damp = 0.5
@@ -53,10 +53,10 @@ buoyancy_constant = 100.0
 [node name="BasicMovement" parent="CurtisWilbur2" instance=ExtResource( 10 )]
 min_torque = -2000
 max_torque = 2000
-position_pid_parameters = Vector3( 3, 1, 7 )
+position_pid_parameters = Vector3( 2.4, 3.7, 8 )
 position_pid_min_output = 100.0
-angular_pid_parameters = Vector3( 50, 0, 50 )
-angular_pid_min_output = 10.0
+angular_pid_parameters = Vector3( 40, 0, 50 )
+angular_pid_min_output = 20.0
 
 [node name="ClickControl" parent="CurtisWilbur2" instance=ExtResource( 11 )]
 

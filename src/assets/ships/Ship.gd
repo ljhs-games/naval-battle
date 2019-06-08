@@ -26,9 +26,8 @@ func _integrate_forces(state: PhysicsDirectBodyState):
 			c.integrate_parent_forces(self, state)
 
 # warning-ignore:unused_argument
-func fire_at(target_node):
+func somebody_new():
 	print("Battle positions!")
-	pass
 
 func set_selected(new_selected):
 	selected = new_selected

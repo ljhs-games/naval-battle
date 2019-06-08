@@ -26,4 +26,4 @@ func _on_DetectionArea_body_entered(body):
             return
     target_node = body
     set_process(true)
-    get_parent().fire_at(body)
+    get_parent().somebody_new()

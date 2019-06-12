@@ -4,9 +4,11 @@ extends RigidBody
 signal clicked
 
 export var buoyancy_constant = 1.0
+export (Material) var selected_material
 
 var base_height: float
 var selected = false setget set_selected
+var base_material = null
 
 func _ready():
 	base_height = translation.y
@@ -30,12 +32,14 @@ func somebody_new():
 	print("Battle positions!")
 
 func set_selected(new_selected):
+	if not selected:
+		if new_selected:
+			print("selecting")
+			base_material = $PlaceholderShip.get_surface_material(0)
+			$PlaceholderShip.set_surface_material(0, selected_material)
+			$PlaceholderShip.get_surface_material(0).next_pass = base_material
+	if new_selected == false:
+			print("de selecting")
+			$PlaceholderShip.set_surface_material(0, base_material)
+			$PlaceholderShip.get_surface_material(0).next_pass = null
 	selected = new_selected
-	if selected:
-		var mat = $PlaceholderShip.get_surface_material(0)
-		mat.emission_enabled = true
-		mat.emission_energy = 0.2
-		mat.emission = Color(127.0, 0.0, 0.0)
-	else:
-		var mat = $PlaceholderShip.get_surface_material(0)
-		mat.emission_enabled = false

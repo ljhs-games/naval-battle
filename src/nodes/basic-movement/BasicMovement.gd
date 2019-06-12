@@ -30,7 +30,7 @@ func _ready():
 func integrate_parent_forces(_parent: RigidBody, state: PhysicsDirectBodyState):
 	self.target_basis_x = (target_position - _parent.translation).normalized()
 	angular_pid.update(get_angle_error(state), state.step)
-
+#	print(target_position)
 #	print(clamp(angular_pid.output, min_torque, max_torque))
 	# print(get_angle_error(state))
 	# print(rad2deg(parent.rotation.y))
@@ -46,7 +46,7 @@ func integrate_parent_forces(_parent: RigidBody, state: PhysicsDirectBodyState):
 #			state.add_central_force(state.transform.basis.x * max_force)
 	position_pid.update(get_position_error(state), state.step)
 	var position_output = clamp(lerp(position_pid.output, 0.0, clamp(abs(get_angle_error(state))/40.0, 0, 1)), min_force, max_force)
-	print(position_output, "	", position_pid.output)
+#	print(position_output, "	", position_pid.output)
 	state.add_central_force(state.transform.basis.x * position_output)
 	# print(clamp(angular_velocity_pid.output, min_torque, max_torque))
 	# print(clamp(position_pid.output, min_force, max_force))
@@ -58,8 +58,6 @@ func set_target_position(new_position):
 	position_pid.clear()
 	$Line3D.target_position = new_position
 	var parent = get_parent()
-	var position_2d = Vector2(parent.translation.x, parent.translation.z)
-	var target_2d_position = Vector2(new_position.x, new_position.z)
 #	self.target_rotation = rad2deg(position_2d.angle_to_point(target_2d_position) +  PI)
 	self.target_basis_x = (new_position - parent.translation).normalized()
 

@@ -32,6 +32,11 @@ _global_script_classes=[ {
 "base": "ImmediateGeometry",
 "class": "ocean",
 "language": "GDScript",
+"path": "res://addons/SimpleProjectedOcean/Ocean.gd"
+}, {
+"base": "ImmediateGeometry",
+"class": "simple_projected_ocean",
+"language": "GDScript",
 "path": "res://addons/Ocean/Ocean.gd"
 } ]
 _global_script_class_icons={
@@ -39,7 +44,8 @@ _global_script_class_icons={
 "ClickListener": "",
 "PID": "",
 "cube_camera": "",
-"ocean": ""
+"ocean": "",
+"simple_projected_ocean": ""
 }
 
 [application]
@@ -113,4 +119,4 @@ g_goto={
 [rendering]
 
 quality/filters/msaa=3
-environment/default_environment="res://default_env.tres"
+environment/default_environment="res://assets/main-world.tres"

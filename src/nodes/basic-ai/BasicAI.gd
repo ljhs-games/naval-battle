@@ -12,7 +12,7 @@ func _ready():
     set_process(false)
 
 func _process(delta):
-    if target_node != null:
+    if target_node != null and not get_parent().selected:
         get_parent().get_node("BasicMovement").target_position = target_node.global_transform.origin
 
 func set_sight_radius(new_sight_radius):

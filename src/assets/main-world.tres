@@ -2,10 +2,12 @@
 
 [sub_resource type="ProceduralSky" id=1]
 sky_horizon_color = Color( 0.764706, 0.819608, 0.854902, 1 )
-sky_curve = 0.0593778
+sky_curve = 0.0378403
 ground_bottom_color = Color( 0.0509804, 0.172549, 0.239216, 1 )
 ground_horizon_color = Color( 0.764706, 0.819608, 0.854902, 1 )
-ground_curve = 1.46409
+ground_curve = 0.0150928
+sun_latitude = 19.2
+sun_longitude = 2.5
 
 [resource]
 background_mode = 2

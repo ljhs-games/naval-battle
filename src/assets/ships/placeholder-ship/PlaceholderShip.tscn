@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/ships/placeholder-ship/placeholder-ship.dae" type="PackedScene" id=1]
+
+[node name="PlaceholderShip" index="0" instance=ExtResource( 1 )]

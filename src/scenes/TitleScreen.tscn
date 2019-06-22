@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://nodes/title-stream-player/TitleStreamPlayer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://nodes/curtis-wilbur/CurtisWilbur.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/TiledOcean/OceanTile.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/TiledOcean/TiledOcean.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends WorldEnvironment
@@ -139,7 +139,8 @@ script = SubResource( 4 )
 
 [node name="CurtisWilbur" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.2283, 0 )
-visible = false
 
-[node name="OceanTile" parent="." instance=ExtResource( 8 )]
+[node name="TiledOcean" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.66455, 7.56483, -10.7384 )
+instance_count = 1000
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/DiscordButton" to="UI/MarginContainer/VBoxContainer/DiscordButton" method="_on_DiscordButton_pressed"]

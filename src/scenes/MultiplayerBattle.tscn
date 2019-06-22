@@ -88,10 +88,10 @@ angular_pid_min_output = 20.0
 
 [node name="BasicAI" parent="AICurtisWilbur" instance=ExtResource( 11 )]
 sight_radius = 500.0
+target_required_groups = [ "red-team", "ship" ]
 
 [node name="TiledOcean" parent="." instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.68433, 0.0659493, 0 )
-instance_count = 20000
+instance_count = 500
 tile_size = 128
 
 [editable path="Viewer"]

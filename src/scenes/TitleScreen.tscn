@@ -203,6 +203,7 @@ buoyancy_constant = 20.0
 
 [node name="TiledOcean" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07369, 8.29037, -10.3732 )
+update_tiles = false
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.945908, -0.321765, 0.0415317, -0.310001, -0.858633, 0.408228, -0.095693, -0.399021, -0.911935, -1.40659, 43.8497, -11.4389 )

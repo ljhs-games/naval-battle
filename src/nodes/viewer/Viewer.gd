@@ -49,8 +49,9 @@ func _physics_process(delta):
 			target_transform = target_transform.orthonormalized()
 		target_transform.origin.y += min_camera_height - new_camera_pos.y
 	if (target_camera_transform.basis.z.dot(target_transform.origin - target_camera_transform.origin)) > 0: # if zoomed in so camera not facing center
-		target_camera_transform.basis = target_camera_transform.basis.rotated(Vector3(0, 1, 0), PI)
-		reversed = -reversed
+#		target_camera_transform.basis = target_camera_transform.basis.rotated(Vector3(0, 1, 0), PI)
+#		reversed = -reversed
+		target_camera_transform.origin = target_transform.origin
 	
 
 	transform.basis = transform.basis.slerp(target_transform.basis, rotational_smoothing * delta)

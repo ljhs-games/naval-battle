@@ -90,6 +90,7 @@ angular_pid_min_output = 20.0
 sight_radius = 500.0
 
 [node name="TiledOcean" parent="." instance=ExtResource( 12 )]
+update_tiles = false
 
 [editable path="Viewer"]
 

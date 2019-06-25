@@ -1,7 +1,6 @@
 extends RigidBody
 
 signal clicked
-signal unclicked
 
 export var buoyancy_constant = 1.0
 export (Material) var selected_material

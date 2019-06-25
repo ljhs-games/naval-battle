@@ -3,6 +3,6 @@
 [ext_resource path="res://addons/TiledOcean/OceanTile.tres" type="PlaneMesh" id=1]
 
 [node name="OceanTile" type="MeshInstance"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.87798, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.630329, 0, 1.45708 )
 mesh = ExtResource( 1 )
 material/0 = null

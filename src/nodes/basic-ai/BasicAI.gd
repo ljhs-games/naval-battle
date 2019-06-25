@@ -11,7 +11,7 @@ var target_node = null
 func _ready():
     set_process(false)
 
-func _process(delta):
+func _process(_delta):
     if target_node != null and not get_parent().selected:
         get_parent().get_node("BasicMovement").target_position = target_node.global_transform.origin
 

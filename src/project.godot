@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://nodes/basic-movement/BasicMovement.gd"
 }, {
-"base": "RayCast",
-"class": "ClickListener",
-"language": "GDScript",
-"path": "res://nodes/click-listener/ClickListener.gd"
-}, {
 "base": "Reference",
 "class": "PID",
 "language": "GDScript",
@@ -41,7 +36,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BasicMovement": "",
-"ClickListener": "",
 "PID": "",
 "cube_camera": "",
 "ocean": "",
@@ -63,6 +57,8 @@ GameVersion="*res://nodes/game-version/GameVersion.gd"
 
 window/size/width=1920
 window/size/height=1080
+window/size/test_width=1920
+window/size/test_height=1080
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 

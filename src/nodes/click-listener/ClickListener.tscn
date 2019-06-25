@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://nodes/click-listener/ClickListener.gd" type="Script" id=1]
-
-[node name="ClickListener" type="RayCast"]
-collision_mask = 524288
-script = ExtResource( 1 )

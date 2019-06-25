@@ -1,7 +1,7 @@
 extends RigidBody
 
-# warning-ignore:unused_signal
 signal clicked
+signal unclicked
 
 export var buoyancy_constant = 1.0
 export (Material) var selected_material
@@ -27,19 +27,28 @@ func _integrate_forces(state: PhysicsDirectBodyState):
 		if c.is_in_group("physical"):
 			c.integrate_parent_forces(self, state)
 
+func _input_event(_camera, event, _click_position, _click_normal, _shape_idx):
+#	if shape_idx == shadp
+#	print("clicked!")
+	if event.is_action_pressed("g_select"):
+		emit_signal("clicked")
+		print("clicked!")
+
 # warning-ignore:unused_argument
 func somebody_new():
 	print("Battle positions!")
 
 func set_selected(new_selected):
+	var target_mesh = $PlaceholderShip/PlaceholderShip
 	if not selected:
 		if new_selected:
 			print("selecting")
-			base_material = $PlaceholderShip.get_surface_material(0)
-			$PlaceholderShip.set_surface_material(0, selected_material)
-			$PlaceholderShip.get_surface_material(0).next_pass = base_material
+			base_material = target_mesh.get_surface_material(0)
+			target_mesh.set_surface_material(0, selected_material)
+#			target_mesh.get_surface_material(0).next_pass = base_material
+			selected_material.next_pass = base_material
 	if new_selected == false:
 			print("de selecting")
-			$PlaceholderShip.set_surface_material(0, base_material)
-			$PlaceholderShip.get_surface_material(0).next_pass = null
+			target_mesh.set_surface_material(0, base_material)
+#			target_mesh.get_surface_material(0).next_pass = null
 	selected = new_selected

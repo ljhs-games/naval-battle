@@ -5,8 +5,13 @@
 [ext_resource path="res://assets/ships/placeholder-ship/PlaceholderShip.tscn" type="PackedScene" id=3]
 
 [node name="CurtisWilbur" type="RigidBody"]
-mode = 2
+collision_layer = 524289
+collision_mask = 524289
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+linear_damp = 0.5
 script = ExtResource( 1 )
+buoyancy_constant = 20.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 

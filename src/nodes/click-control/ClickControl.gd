@@ -1,21 +1,17 @@
 extends Spatial
 
+var click_inside_parent = false
+
 func _ready():
 # warning-ignore:return_value_discarded
 	get_parent().connect("clicked", self, "_on_parent_clicked")
 
-func _on_parent_clicked(click_listener: ClickListener):
-	get_parent().selected = true
-# warning-ignore:return_value_discarded
-	if not click_listener.is_connected("somebody_clicked", self, "_on_somebody_clicked"):
-		click_listener.connect("somebody_clicked", self, "_on_somebody_clicked")
-
-func _on_somebody_clicked(click_listener: ClickListener, object_clicked):
-	if object_clicked != get_parent():
-			get_parent().selected = false
-			click_listener.disconnect("somebody_clicked", self, "_on_somebody_clicked")
-	else:
+func _on_parent_clicked():
+	click_inside_parent = true
+	if get_parent().selected:
 		get_node("/root/Main/Viewer").target_node = get_parent()
+	else:
+		get_parent().selected = true
 
 func _input(event):
 	if event.is_action_pressed("g_goto") and get_parent().selected:
@@ -27,3 +23,7 @@ func _input(event):
 		else:
 			print("Going to: ", intersect_result)
 			get_node("../BasicMovement").target_position = intersect_result
+	elif event.is_action_released("g_select"):
+		if click_inside_parent == false and get_parent().selected:
+			get_parent().selected = false
+		click_inside_parent = false

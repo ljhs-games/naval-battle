@@ -14,7 +14,7 @@ func set_target_position(new_target_position):
 	target_position = new_target_position
 #	update_line()
 
-func _process(delta):
+func _process(_delta):
 	update_line()
 
 func update_line():

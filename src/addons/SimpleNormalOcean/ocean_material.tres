@@ -12,6 +12,9 @@ uniform sampler2D texture_albedo : hint_albedo;
 uniform float specular;
 uniform float metallic;
 uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_refraction;
+uniform float refraction : hint_range(-16,16);
+uniform vec4 refraction_texture_channel;
 uniform sampler2D texture_metallic : hint_white;
 uniform vec4 metallic_texture_channel;
 uniform sampler2D texture_roughness : hint_white;
@@ -31,6 +34,7 @@ uniform vec3 uv3_scale;
 //uniform vec3 uv3_offset;
 uniform float tile_size = 64.0;
 uniform float global_zoom = 100.0;
+uniform float murkiness = 2.0;
 
 float blend_floats(float base, float blend) {
 	return base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));
@@ -64,6 +68,12 @@ void vertex() {
 
 
 void fragment() {
+	float depth = texture(DEPTH_TEXTURE, SCREEN_UV).r;
+	depth = depth * 2.0 - 1.0;
+	depth = PROJECTION_MATRIX[3][2] / (depth + PROJECTION_MATRIX[2][2]);
+	depth = depth + VERTEX.z;
+	depth *= 0.5;
+//	depth = 1.0 - depth;
 //	vec2 global_vertex = (VERTEX).xz;
 //	vec2 base_uv = global_vertex - 12.0*floor(global_vertex/12.0);
 //	vec2 base_uv =vec2(global_vertex.x/5.0-floor(global_vertex.x/5.0), global_vertex.y);
@@ -72,6 +82,7 @@ void fragment() {
 	ALBEDO = vec3(base_uv.x, base_uv.y, 0);
 	vec4 albedo_tex = texture(texture_albedo,base_uv - vec2(VERTEX.x, VERTEX.z));
 	ALBEDO = albedo.rgb * albedo_tex.rgb;	
+//	ALBEDO = vec3(depth);
 	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
 	METALLIC = metallic_tex * metallic;
 	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
@@ -88,15 +99,22 @@ void fragment() {
 //	NORMALMAP = texture(texture_normal_1, normal_1_uv).rgb;
 //	NORMALMAP = texture(texture_normal_2, normal_2_uv).rgb;
 	NORMALMAP_DEPTH = normal_scale;
+	vec3 ref_normal = NORMAL;
+	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * dot(vec4(NORMALMAP.rgb, 1.0),refraction_texture_channel) * refraction;
+	float ref_amount = 1.0 - albedo.a * albedo_tex.a;
+	EMISSION += (textureLod(SCREEN_TEXTURE,ref_ofs,ROUGHNESS * 8.0).rgb * ref_amount) * clamp(exp(-depth * murkiness), 0.0, 1.0);
+//	ALBEDO *= 1.0 - ref_amount;
 }
 "
 
 [resource]
 shader = SubResource( 1 )
-shader_param/albedo = Color( 0, 0.168627, 0.215686, 1 )
+shader_param/albedo = Color( 0, 0.168627, 0.215686, 0.643137 )
 shader_param/specular = 0.57
 shader_param/metallic = 0.35
-shader_param/roughness = 0.15
+shader_param/roughness = 0.12
+shader_param/refraction = 0.21
+shader_param/refraction_texture_channel = Plane( 0.09, 0.16, -0.11, -0.09 )
 shader_param/metallic_texture_channel = Plane( 1, 0, 0, 0 )
 shader_param/roughness_texture_channel = Plane( 1, 0, 0, 0 )
 shader_param/normal_1_time = Vector2( -0.14, 0.058 )
@@ -108,6 +126,7 @@ shader_param/uv2_scale = Vector3( 10000, 1000, 1 )
 shader_param/uv3_scale = Vector3( 1000, 1000, 1 )
 shader_param/tile_size = 64.0
 shader_param/global_zoom = 100.0
+shader_param/murkiness = 0.19
 shader_param/texture_normal_1 = ExtResource( 1 )
 shader_param/texture_normal_2 = ExtResource( 2 )
 shader_param/texture_normal_3 = ExtResource( 3 )

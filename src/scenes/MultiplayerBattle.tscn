@@ -45,10 +45,11 @@ text = "Back To Titlescreen"
 target_scene = "res://scenes/TitleScreen.tscn"
 
 [node name="TiledOcean" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.0499, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.19605, 0 )
+update_tiles = false
 
 [node name="CurtisWilbur" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.760626, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.236961, -2.57251, -0.156227 )
 collision_layer = 1
 collision_mask = 1
 selected_material = SubResource( 1 )
@@ -57,8 +58,10 @@ selected_material = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.23937, 0 )
 
 [node name="BasicMovement" parent="CurtisWilbur" instance=ExtResource( 10 )]
-min_torque = -2000
-max_torque = 2000
+min_force = -50
+max_force = 50
+min_torque = -700
+max_torque = 700
 position_pid_parameters = Vector3( 2.4, 3.7, 8 )
 position_pid_min_output = 100.0
 angular_pid_parameters = Vector3( 40, 0, 50 )

@@ -198,13 +198,22 @@ script = SubResource( 4 )
 [node name="TitleStreamPlayer" parent="." instance=ExtResource( 6 )]
 
 [node name="CurtisWilbur" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.6801, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.3298, 0 )
 
 [node name="TiledOcean" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07369, 8.29037, -10.3732 )
+update_tiles = false
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.945908, -0.321765, 0.0415317, -0.310001, -0.858633, 0.408228, -0.095693, -0.399021, -0.911935, -1.40659, 43.8497, -11.4389 )
+light_color = Color( 1, 0.972549, 0.901961, 1 )
+light_energy = 0.8
+light_indirect_energy = 0.9
+light_specular = 0.1
+shadow_enabled = true
+shadow_bias = 2.1
+shadow_contact = 1.0
+directional_shadow_split_2 = 0.21
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4797, 0 )
